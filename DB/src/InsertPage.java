@@ -23,7 +23,7 @@ public class InsertPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SelectPage frame = new SelectPage();
+					InsertPage frame = new InsertPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

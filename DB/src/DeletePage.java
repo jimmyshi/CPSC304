@@ -23,7 +23,7 @@ public class DeletePage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SelectPage frame = new SelectPage();
+					DeletePage frame = new DeletePage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
