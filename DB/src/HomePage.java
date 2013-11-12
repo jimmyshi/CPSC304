@@ -129,7 +129,7 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                SelectPage newpage = new SelectPage();
+                Groups newpage = new Groups();
                 newpage.setTitle("Select");
                 newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
