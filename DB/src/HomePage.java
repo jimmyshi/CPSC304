@@ -50,29 +50,33 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(6, 6, 488, 42);
+		panel.setBounds(6, 6, 488, 80);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Insert");
-		btnInsert.setBounds(10, 6, 90, 29);
+		btnInsert.setBounds(20, 6, 120, 30);
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(100, 6, 90, 29);
+		btnDelete.setBounds(183, 6, 120, 30);
 		panel.add(btnDelete);
 		
 		JButton btnJoin = new JButton("Join");
-		btnJoin.setBounds(200, 6, 90, 29);
+		btnJoin.setBounds(344, 6, 120, 30);
 		panel.add(btnJoin);
 		
 		JButton btnSelect = new JButton("Select");
-		btnSelect.setBounds(300, 6, 90, 29);
+		btnSelect.setBounds(20, 47, 120, 30);
 		panel.add(btnSelect);
 		
 		JButton btnView = new JButton("View");
-		btnView.setBounds(400, 6, 90, 29);
+		btnView.setBounds(183, 47, 120, 30);
 		panel.add(btnView);
+		
+		JButton btnGroup = new JButton("Group");
+		btnGroup.setBounds(344, 47, 120, 30);
+		panel.add(btnGroup);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 
@@ -154,6 +158,21 @@ public class HomePage extends JFrame {
             }
         });
 		
+		btnGroup.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+
+            private void NextActionPerformed(ActionEvent evt) {
+                Groups newpage = new Groups();
+                newpage.setTitle("Group");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
+            }
+        });
 		
 	}
 }
