@@ -43,13 +43,25 @@ public class HomePage extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(6, 6, 228, 139);
+		panel.setBounds(6, 6, 438, 42);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Insert");
-		btnInsert.setBounds(149, 6, 73, 29);
+		btnInsert.setBounds(17, 6, 90, 29);
 		panel.add(btnInsert);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(119, 6, 90, 29);
+		panel.add(btnDelete);
+		
+		JButton btnJoin = new JButton("Join");
+		btnJoin.setBounds(221, 6, 90, 29);
+		panel.add(btnJoin);
+		
+		JButton btnSelect = new JButton("Select");
+		btnSelect.setBounds(323, 6, 90, 29);
+		panel.add(btnSelect);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 
@@ -61,10 +73,56 @@ public class HomePage extends JFrame {
                 InsertPage myProg = new InsertPage();
                 myProg.setSize(450, 400);
                 myProg.setLocationRelativeTo(null);
-                myProg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 myProg.setVisible(true);
             }
         });
+		
+		btnDelete.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+
+            private void NextActionPerformed(ActionEvent evt) {
+                DeletePage myProg = new DeletePage();
+                myProg.setSize(450, 400);
+                myProg.setLocationRelativeTo(null);
+                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                myProg.setVisible(true);
+            }
+        });
+		
+		btnJoin.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+
+            private void NextActionPerformed(ActionEvent evt) {
+                JoinPage myProg = new JoinPage();
+                myProg.setSize(450, 400);
+                myProg.setLocationRelativeTo(null);
+                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                myProg.setVisible(true);
+            }
+        });
+		
+		btnSelect.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+
+            private void NextActionPerformed(ActionEvent evt) {
+                SelectPage myProg = new SelectPage();
+                myProg.setSize(450, 400);
+                myProg.setLocationRelativeTo(null);
+                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                myProg.setVisible(true);
+            }
+        });
+		
 		
 	}
 }
