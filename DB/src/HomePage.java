@@ -23,6 +23,7 @@ public class HomePage extends JFrame {
 			public void run() {
 				try {
 					HomePage frame = new HomePage();
+					frame.setTitle("Home");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,37 +32,47 @@ public class HomePage extends JFrame {
 		});
 	}
 
+	
+	public void setTitle(String Title){
+		
+	}
 	/**
 	 * Create the frame.
 	 */
 	public HomePage() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(6, 6, 438, 42);
+		panel.setBounds(6, 6, 488, 42);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Insert");
-		btnInsert.setBounds(17, 6, 90, 29);
+		btnInsert.setBounds(10, 6, 90, 29);
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(119, 6, 90, 29);
+		btnDelete.setBounds(100, 6, 90, 29);
 		panel.add(btnDelete);
 		
 		JButton btnJoin = new JButton("Join");
-		btnJoin.setBounds(221, 6, 90, 29);
+		btnJoin.setBounds(200, 6, 90, 29);
 		panel.add(btnJoin);
 		
 		JButton btnSelect = new JButton("Select");
-		btnSelect.setBounds(323, 6, 90, 29);
+		btnSelect.setBounds(300, 6, 90, 29);
 		panel.add(btnSelect);
+		
+		JButton btnView = new JButton("View");
+		btnView.setBounds(400, 6, 90, 29);
+		panel.add(btnView);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 
@@ -70,11 +81,12 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                InsertPage myProg = new InsertPage();
-                myProg.setSize(450, 400);
-                myProg.setLocationRelativeTo(null);
-                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                myProg.setVisible(true);
+                InsertPage newpage = new InsertPage();
+                newpage.setTitle("Insert");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
             }
         });
 		
@@ -85,11 +97,12 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                DeletePage myProg = new DeletePage();
-                myProg.setSize(450, 400);
-                myProg.setLocationRelativeTo(null);
-                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                myProg.setVisible(true);
+                DeletePage newpage = new DeletePage();
+                newpage.setTitle("Delete");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
             }
         });
 		
@@ -100,11 +113,12 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                JoinPage myProg = new JoinPage();
-                myProg.setSize(450, 400);
-                myProg.setLocationRelativeTo(null);
-                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                myProg.setVisible(true);
+                JoinPage newpage = new JoinPage();
+                newpage.setTitle("Join");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
             }
         });
 		
@@ -115,11 +129,28 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                SelectPage myProg = new SelectPage();
-                myProg.setSize(450, 400);
-                myProg.setLocationRelativeTo(null);
-                myProg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                myProg.setVisible(true);
+                SelectPage newpage = new SelectPage();
+                newpage.setTitle("Select");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
+            }
+        });
+		
+		btnView.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+
+            private void NextActionPerformed(ActionEvent evt) {
+                CreateViewPage newpage = new CreateViewPage();
+                newpage.setTitle("Select");
+                newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
             }
         });
 		

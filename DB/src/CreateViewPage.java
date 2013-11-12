@@ -14,7 +14,6 @@ public class CreateViewPage extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JButton btnReturn;
 	private JTextField textField_2;
 	private JLabel lblWhere;
 	private JTextField textField_3;
@@ -55,10 +54,6 @@ public class CreateViewPage extends JFrame {
 		textField_1.setBounds(47, 41, 266, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
-		
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(323, 40, 89, 23);
-		contentPane.add(btnReturn);
 		
 		JLabel lblValues = new JLabel("From:");
 		lblValues.setBounds(10, 43, 46, 14);

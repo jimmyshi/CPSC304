@@ -14,7 +14,6 @@ public class SelectPage extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JButton btnReturn;
 
 	/**
 	 * Launch the application.
@@ -52,10 +51,6 @@ public class SelectPage extends JFrame {
 		textField_1.setBounds(47, 41, 266, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
-		
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(323, 40, 89, 23);
-		contentPane.add(btnReturn);
 		
 		JLabel lblValues = new JLabel("Where:");
 		lblValues.setBounds(10, 43, 46, 14);
