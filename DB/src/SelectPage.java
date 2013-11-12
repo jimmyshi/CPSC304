@@ -23,7 +23,7 @@ public class SelectPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CountPage frame = new CountPage();
+					SelectPage frame = new SelectPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
