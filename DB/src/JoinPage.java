@@ -9,12 +9,14 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 
-public class InsertPage extends JFrame {
+public class JoinPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JButton btnReturn;
+	private JLabel lblWhere;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -23,7 +25,7 @@ public class InsertPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SelectPage frame = new SelectPage();
+					JoinPage frame = new JoinPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +37,7 @@ public class InsertPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsertPage() {
+	public JoinPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -57,20 +59,29 @@ public class InsertPage extends JFrame {
 		btnReturn.setBounds(323, 40, 89, 23);
 		contentPane.add(btnReturn);
 		
-		JLabel lblValues = new JLabel("Values:");
+		JLabel lblValues = new JLabel("From:");
 		lblValues.setBounds(10, 43, 46, 14);
 		contentPane.add(lblValues);
 		
-		JLabel lblTable = new JLabel("Table:");
+		JLabel lblTable = new JLabel("Select:");
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Insert");
+		JButton btnInsert = new JButton("Join");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		btnInsert.setBounds(323, 11, 89, 23);
 		contentPane.add(btnInsert);
+		
+		lblWhere = new JLabel("Where:");
+		lblWhere.setBounds(10, 72, 46, 14);
+		contentPane.add(lblWhere);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(47, 72, 266, 20);
+		contentPane.add(textField_2);
+		textField_2.setColumns(10);
 	}
 }

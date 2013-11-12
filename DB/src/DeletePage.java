@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 
-public class InsertPage extends JFrame {
+public class DeletePage extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -35,7 +35,7 @@ public class InsertPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsertPage() {
+	public DeletePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -57,7 +57,7 @@ public class InsertPage extends JFrame {
 		btnReturn.setBounds(323, 40, 89, 23);
 		contentPane.add(btnReturn);
 		
-		JLabel lblValues = new JLabel("Values:");
+		JLabel lblValues = new JLabel("Where:");
 		lblValues.setBounds(10, 43, 46, 14);
 		contentPane.add(lblValues);
 		
@@ -65,7 +65,7 @@ public class InsertPage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Insert");
+		JButton btnInsert = new JButton("Delete");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
