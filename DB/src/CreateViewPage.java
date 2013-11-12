@@ -68,7 +68,7 @@ public class CreateViewPage extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(323, 11, 101, 23);
+		btnInsert.setBounds(320, 11, 110, 23);
 		contentPane.add(btnInsert);
 		
 		JLabel lblSelect = new JLabel("Select:");

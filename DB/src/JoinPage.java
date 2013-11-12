@@ -59,7 +59,7 @@ public class JoinPage extends JFrame {
 		contentPane.add(lblValues);
 		
 		JLabel lblTable = new JLabel("Select:");
-		lblTable.setBounds(10, 15, 46, 14);
+		lblTable.setBounds(10, 15, 36, 14);
 		contentPane.add(lblTable);
 		
 		JButton btnInsert = new JButton("Join");
@@ -71,7 +71,7 @@ public class JoinPage extends JFrame {
 		contentPane.add(btnInsert);
 		
 		lblWhere = new JLabel("Where:");
-		lblWhere.setBounds(10, 72, 46, 14);
+		lblWhere.setBounds(10, 72, 36, 14);
 		contentPane.add(lblWhere);
 		
 		textField_2 = new JTextField();
