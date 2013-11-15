@@ -1,7 +1,120 @@
 import java.sql.*;
 
-class jdbcDB2Sample {
-	public static void main(String argv[]) {
+class JDBC {
+	
+	Connection con = null;
+	
+	public JDBC()
+	{
+		String userid = "ora_n2d8";
+		String passwd = "a43221118";
+		String url = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug";
+		ResultSet rs = null;
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (Exception e) {
+			System.exit(-1);
+		}
+
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+		} catch (Exception e) {
+			System.out.println("Connection failed\n" + e);
+		}
+	}
+	
+	private ResultSet SelectData(String table, String where)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECT * FROM " + table + " WHERE " + where; 
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	private ResultSet InsertData(String table, String values)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query = "INSERT INTO " + table + " VALUES (" + values + ")"; 
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	private ResultSet DeleteData(String table, String values)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query = "DELETE FROM " + table + " WHERE " + values; 
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	private ResultSet JoinData(String select, String from, String where)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query = "SELECTt " + select + " FROM " + from + " WHERE " + where; 
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	private ResultSet ViewData(String name, String select, String from, String where)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from + " WHERE " + where;
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	private ResultSet GroupData(String select, String from, String where, String group, String having)
+	{
+		ResultSet rs = null;
+		
+		try {
+			String query =  "SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group + " HAVING " + having;
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
+	/*public static void main(String argv[]) {
 		Connection con = null;
 
 		String userid = "ora_n2d8";
@@ -32,6 +145,7 @@ class jdbcDB2Sample {
 		}
 
 		try {
+			System.out.println("");
 			System.out.println("Selecting sixteens_sequence from Produces");
 
 			Statement stmt = con.createStatement();
@@ -43,5 +157,5 @@ class jdbcDB2Sample {
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
-	}
+	}*/
 }
