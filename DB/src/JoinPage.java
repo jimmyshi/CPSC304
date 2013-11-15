@@ -62,13 +62,13 @@ public class JoinPage extends JFrame {
 		lblTable.setBounds(10, 15, 36, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Join");
-		btnInsert.addActionListener(new ActionListener() {
+		JButton btnJoin = new JButton("Join");
+		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(323, 11, 89, 23);
-		contentPane.add(btnInsert);
+		btnJoin.setBounds(323, 11, 89, 23);
+		contentPane.add(btnJoin);
 		
 		lblWhere = new JLabel("Where:");
 		lblWhere.setBounds(10, 72, 36, 14);

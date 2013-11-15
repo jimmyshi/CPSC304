@@ -60,12 +60,12 @@ public class DeletePage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Delete");
-		btnInsert.addActionListener(new ActionListener() {
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(323, 11, 89, 23);
-		contentPane.add(btnInsert);
+		btnDelete.setBounds(323, 11, 89, 23);
+		contentPane.add(btnDelete);
 	}
 }

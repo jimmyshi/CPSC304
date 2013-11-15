@@ -60,12 +60,12 @@ public class SelectPage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Select");
-		btnInsert.addActionListener(new ActionListener() {
+		JButton btnSelect = new JButton("Select");
+		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(323, 11, 89, 23);
-		contentPane.add(btnInsert);
+		btnSelect.setBounds(323, 11, 89, 23);
+		contentPane.add(btnSelect);
 	}
 }

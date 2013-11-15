@@ -63,13 +63,13 @@ public class CreateViewPage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Create View");
-		btnInsert.addActionListener(new ActionListener() {
+		JButton btnCreateViewPage = new JButton("Create View");
+		btnCreateViewPage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(320, 11, 110, 23);
-		contentPane.add(btnInsert);
+		btnCreateViewPage.setBounds(320, 11, 110, 23);
+		contentPane.add(btnCreateViewPage);
 		
 		JLabel lblSelect = new JLabel("Select:");
 		lblSelect.setBounds(157, 15, 37, 14);

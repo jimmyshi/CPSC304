@@ -63,13 +63,13 @@ public class Groups extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnInsert = new JButton("Group Select");
-		btnInsert.addActionListener(new ActionListener() {
+		JButton btnGroupSelect = new JButton("Group Select");
+		btnGroupSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(319, 11, 93, 23);
-		contentPane.add(btnInsert);
+		btnGroupSelect.setBounds(319, 11, 93, 23);
+		contentPane.add(btnGroupSelect);
 		
 		JLabel lblWhere = new JLabel("Where:");
 		lblWhere.setBounds(10, 72, 46, 14);
