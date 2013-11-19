@@ -24,11 +24,17 @@ class JDBC {
 		}
 	}
 	
-	ResultSet SelectData(String table, String where)
+	public ResultSet SelectData(String table, String where)
 	{
 		ResultSet rs = null;
 		
 		try {
+			if(where.isEmpty())
+			{
+				String query = "SELECT * FROM " + table; 
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+			}
 			String query = "SELECT * FROM " + table + " WHERE " + where; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -39,7 +45,7 @@ class JDBC {
 		return rs;
 	}
 	
-	private ResultSet InsertData(String table, String values)
+	public ResultSet InsertData(String table, String values)
 	{
 		ResultSet rs = null;
 		
@@ -54,7 +60,7 @@ class JDBC {
 		return rs;
 	}
 	
-	private ResultSet DeleteData(String table, String values)
+	public ResultSet DeleteData(String table, String values)
 	{
 		ResultSet rs = null;
 		
@@ -69,7 +75,7 @@ class JDBC {
 		return rs;
 	}
 	
-	private ResultSet JoinData(String select, String from, String where)
+	public ResultSet JoinData(String select, String from, String where)
 	{
 		ResultSet rs = null;
 		
@@ -84,7 +90,7 @@ class JDBC {
 		return rs;
 	}
 	
-	private ResultSet ViewData(String name, String select, String from, String where)
+	public ResultSet ViewData(String name, String select, String from, String where)
 	{
 		ResultSet rs = null;
 		
@@ -99,7 +105,7 @@ class JDBC {
 		return rs;
 	}
 	
-	private ResultSet GroupData(String select, String from, String where, String group, String having)
+	public ResultSet GroupData(String select, String from, String where, String group, String having)
 	{
 		ResultSet rs = null;
 		

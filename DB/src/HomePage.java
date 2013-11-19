@@ -7,13 +7,24 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.CardLayout;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 
 public class HomePage extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
+	private JDBC jdbc = new JDBC();
 
 	/**
 	 * Launch the application.
@@ -77,6 +88,19 @@ public class HomePage extends JFrame {
 		JButton btnGroup = new JButton("Group");
 		btnGroup.setBounds(344, 47, 120, 30);
 		panel.add(btnGroup);
+		
+		ResultSet rs = jdbc.SelectData("Protein", "");
+		
+		try {
+			table = new JTable(buildTableModel(rs));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		table.setBounds(6, 96, 468, 154);
+		contentPane.add(table);
+		
+		
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 
@@ -175,4 +199,31 @@ public class HomePage extends JFrame {
         });
 		
 	}
+
+
+	public DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException {
+
+    ResultSetMetaData metaData = rs.getMetaData();
+
+    // names of columns
+    Vector<String> columnNames = new Vector<String>();
+    int columnCount = metaData.getColumnCount();
+    for (int column = 1; column <= columnCount; column++) {
+        columnNames.add(metaData.getColumnName(column));
+    }
+
+    // data of the table
+    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+    while (rs.next()) {
+        Vector<Object> vector = new Vector<Object>();
+        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+            vector.add(rs.getObject(columnIndex));
+        }
+        data.add(vector);
+    }
+
+    return new DefaultTableModel(data, columnNames);
+
+}
 }
