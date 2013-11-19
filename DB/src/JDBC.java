@@ -24,7 +24,7 @@ class JDBC {
 		}
 	}
 	
-	private ResultSet SelectData(String table, String where)
+	ResultSet SelectData(String table, String where)
 	{
 		ResultSet rs = null;
 		
