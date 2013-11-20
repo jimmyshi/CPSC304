@@ -1,10 +1,20 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
@@ -12,11 +22,14 @@ import javax.swing.JLabel;
 public class Groups extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField Select;
+	private JTextField From;
+	private JTextField Where;
+	private JTextField GroupBy;
+	private JTextField Having;
+	private JDBC jdbc = new JDBC();
+	private ResultSet rs;
+	private JTable jtable;
 
 	/**
 	 * Launch the application.
@@ -45,15 +58,15 @@ public class Groups extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(68, 12, 242, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		Select = new JTextField();
+		Select.setBounds(68, 12, 242, 20);
+		contentPane.add(Select);
+		Select.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(68, 44, 365, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		From = new JTextField();
+		From.setBounds(68, 44, 365, 20);
+		contentPane.add(From);
+		From.setColumns(10);
 		
 		JLabel lblValues = new JLabel("From:");
 		lblValues.setBounds(10, 43, 46, 14);
@@ -66,6 +79,49 @@ public class Groups extends JFrame {
 		JButton btnGroupSelect = new JButton("Group Select");
 		btnGroupSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				String select = Select.getText();
+				String from = From.getText();
+				String where = Where.getText();
+				String groupby = GroupBy.getText();
+				String having = Having.getText();
+				
+				rs = jdbc.GroupData(select, from, where, groupby, having);
+				
+				try {
+					if(!rs.isBeforeFirst())
+					{
+						jtable = new JTable();
+					}
+					jtable = new JTable(buildTable(rs));
+				}
+				catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
+			}
+
+			private TableModel buildTable(ResultSet rs) throws SQLException{
+				ResultSetMetaData metaData = rs.getMetaData();
+
+				// names of columns
+				Vector<String> columnNames = new Vector<String>();
+				int columnCount = metaData.getColumnCount();
+				for (int column = 1; column <= columnCount; column++) {
+					columnNames.add(metaData.getColumnName(column));
+				}
+
+				// data of the table
+				Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+				while (rs.next()) {
+					Vector<Object> vector = new Vector<Object>();
+					for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+						vector.add(rs.getObject(columnIndex));
+					}
+					data.add(vector);
+				}
+				return new DefaultTableModel(data,columnNames);
+				// TODO Auto-generated method stub
 			}
 		});
 		btnGroupSelect.setBounds(322, 12, 111, 23);
@@ -83,19 +139,19 @@ public class Groups extends JFrame {
 		lblHaving.setBounds(10, 279, 56, 14);
 		contentPane.add(lblHaving);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(10, 95, 423, 143);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		Where = new JTextField();
+		Where.setBounds(10, 95, 423, 143);
+		contentPane.add(Where);
+		Where.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(78, 250, 355, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		GroupBy = new JTextField();
+		GroupBy.setBounds(78, 250, 355, 20);
+		contentPane.add(GroupBy);
+		GroupBy.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(10, 293, 423, 105);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		Having = new JTextField();
+		Having.setBounds(10, 293, 423, 105);
+		contentPane.add(Having);
+		Having.setColumns(10);
 	}
 }
