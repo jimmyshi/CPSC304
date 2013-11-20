@@ -24,9 +24,8 @@ public class SelectPage extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JDBC jdbc = new JDBC();
-	private JTable jtable;
-	private JTable table_1;
 	private ResultSet rs;
+	private JTable jtable;
 
 	/**
 	 * Launch the application.
@@ -75,33 +74,78 @@ public class SelectPage extends JFrame {
 
 		JButton btnSelect = new JButton("Select");
 		btnSelect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				NextActionPerformed(evt);
-			}
+			public void actionPerformed(ActionEvent e) {
 
-			private void NextActionPerformed(ActionEvent evt) {
 				String table = textField.getText();
 				String where = textField_1.getText();
 				rs = jdbc.SelectData(table, where);
-			}
+				try {
+					if(!rs.isBeforeFirst())
+					{
+						jtable = new JTable();
+					}
+					jtable = new JTable(buildTable(rs));
 
+				}
+				catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				jtable.setBounds(10, 89, 434, 183);
+				contentPane.add(jtable);
+				jtable.updateUI();
+			}
 		});
+//		btnSelect.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent evt) {
+//				String table = textField.getText();
+//				String where = textField_1.getText();
+//				rs = jdbc.SelectData(table, where);
+//		try {
+//			if(!rs.isBeforeFirst())
+//			{
+//				table_1 = new JTable();
+//			}
+//			table_1 = new JTable(buildTable(rs));
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		table_1.setBounds(10, 95, 434, 161);
+//		contentPane.add(table_1);
+//	}
+
+
+//			private void NextActionPerformed(ActionEvent evt) {
+//				String table = textField.getText();
+//				String where = textField_1.getText();
+//				rs = jdbc.SelectData(table, where);
+//				try {
+//					if(!rs.isBeforeFirst())
+//					{
+//						table_1 = new JTable();
+//					}
+//					table_1 = new JTable(buildTable(rs));
+//					
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				table_1.setBounds(10, 95, 434, 161);
+//				contentPane.add(table_1);
+//			}
+//
+//		});
+		
+		
 		btnSelect.setBounds(323, 11, 89, 23);
 		contentPane.add(btnSelect);
+		
+//		jtable = new JTable();
+//		jtable.setBounds(10, 89, 434, 183);
+//		contentPane.add(jtable);
+	
 
-		try {
-			if(!rs.next())
-			{
-				table_1 = new JTable();
-			}
-			table_1 = new JTable(buildTable(rs));
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		table_1.setBounds(10, 95, 434, 161);
-		contentPane.add(table_1);
 
 	}
 
@@ -126,5 +170,4 @@ public class SelectPage extends JFrame {
 		}
 		return new DefaultTableModel(data,columnNames);
 	}
-
 }

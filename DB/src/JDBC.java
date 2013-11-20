@@ -35,7 +35,7 @@ class JDBC {
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 			}
-			String query = "SELECT * FROM " + table + " WHERE " + where; 
+			String query = "SELECT * FROM " + table + " WHERE " + where ; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 
