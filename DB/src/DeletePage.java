@@ -36,19 +36,19 @@ public class DeletePage extends JFrame {
 	 */
 	public DeletePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 201);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(47, 12, 266, 20);
+		textField.setBounds(60, 12, 253, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(47, 41, 266, 20);
+		textField_1.setBounds(60, 41, 352, 100);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		

@@ -38,19 +38,19 @@ public class JoinPage extends JFrame {
 	 */
 	public JoinPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 125);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(47, 12, 266, 20);
+		textField.setBounds(77, 12, 266, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(47, 41, 266, 20);
+		textField_1.setBounds(77, 40, 266, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -59,7 +59,7 @@ public class JoinPage extends JFrame {
 		contentPane.add(lblValues);
 		
 		JLabel lblTable = new JLabel("Select:");
-		lblTable.setBounds(10, 15, 36, 14);
+		lblTable.setBounds(10, 15, 55, 14);
 		contentPane.add(lblTable);
 		
 		JButton btnJoin = new JButton("Join");
@@ -67,15 +67,15 @@ public class JoinPage extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnJoin.setBounds(323, 11, 89, 23);
+		btnJoin.setBounds(355, 12, 89, 23);
 		contentPane.add(btnJoin);
 		
 		lblWhere = new JLabel("Where:");
-		lblWhere.setBounds(10, 72, 36, 14);
+		lblWhere.setBounds(10, 72, 46, 14);
 		contentPane.add(lblWhere);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(47, 72, 266, 20);
+		textField_2.setBounds(77, 72, 266, 20);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 	}

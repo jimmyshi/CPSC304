@@ -23,7 +23,6 @@ import javax.swing.JTable;
 public class HomePage extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JDBC jdbc = new JDBC();
 
 	/**
@@ -53,7 +52,7 @@ public class HomePage extends JFrame {
 	public HomePage() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 300);
+		setBounds(100, 100, 500, 117);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,19 +87,6 @@ public class HomePage extends JFrame {
 		JButton btnGroup = new JButton("Group");
 		btnGroup.setBounds(344, 47, 120, 30);
 		panel.add(btnGroup);
-		
-		ResultSet rs = jdbc.SelectData("Protein", "");
-		
-		try {
-			table = new JTable(buildTableModel(rs));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		table.setBounds(6, 96, 468, 154);
-		contentPane.add(table);
-		
-		
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 

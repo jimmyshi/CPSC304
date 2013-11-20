@@ -1,7 +1,9 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +19,8 @@ import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class SelectPage extends JFrame {
 
@@ -48,7 +52,7 @@ public class SelectPage extends JFrame {
 	 */
 	public SelectPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 100);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,66 +89,16 @@ public class SelectPage extends JFrame {
 						jtable = new JTable();
 					}
 					jtable = new JTable(buildTable(rs));
-
 				}
 				catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				jtable.setBounds(10, 89, 434, 183);
-				contentPane.add(jtable);
-				jtable.updateUI();
+				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
-//		btnSelect.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent evt) {
-//				String table = textField.getText();
-//				String where = textField_1.getText();
-//				rs = jdbc.SelectData(table, where);
-//		try {
-//			if(!rs.isBeforeFirst())
-//			{
-//				table_1 = new JTable();
-//			}
-//			table_1 = new JTable(buildTable(rs));
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		table_1.setBounds(10, 95, 434, 161);
-//		contentPane.add(table_1);
-//	}
-
-
-//			private void NextActionPerformed(ActionEvent evt) {
-//				String table = textField.getText();
-//				String where = textField_1.getText();
-//				rs = jdbc.SelectData(table, where);
-//				try {
-//					if(!rs.isBeforeFirst())
-//					{
-//						table_1 = new JTable();
-//					}
-//					table_1 = new JTable(buildTable(rs));
-//					
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				table_1.setBounds(10, 95, 434, 161);
-//				contentPane.add(table_1);
-//			}
-//
-//		});
-		
 		
 		btnSelect.setBounds(323, 11, 89, 23);
 		contentPane.add(btnSelect);
-		
-//		jtable = new JTable();
-//		jtable.setBounds(10, 89, 434, 183);
-//		contentPane.add(jtable);
-	
 
 
 	}

@@ -36,19 +36,19 @@ public class InsertPage extends JFrame {
 	 */
 	public InsertPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 100);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(47, 12, 266, 20);
+		textField.setBounds(57, 12, 266, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(47, 41, 266, 20);
+		textField_1.setBounds(57, 40, 266, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -65,7 +65,7 @@ public class InsertPage extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnInsert.setBounds(323, 11, 89, 23);
+		btnInsert.setBounds(335, 12, 89, 23);
 		contentPane.add(btnInsert);
 	}
 }

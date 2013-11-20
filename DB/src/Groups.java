@@ -39,19 +39,19 @@ public class Groups extends JFrame {
 	 */
 	public Groups() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 433);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(47, 12, 266, 20);
+		textField.setBounds(68, 12, 242, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(47, 41, 365, 20);
+		textField_1.setBounds(68, 44, 365, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -68,33 +68,33 @@ public class Groups extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnGroupSelect.setBounds(319, 11, 93, 23);
+		btnGroupSelect.setBounds(322, 12, 111, 23);
 		contentPane.add(btnGroupSelect);
 		
 		JLabel lblWhere = new JLabel("Where:");
 		lblWhere.setBounds(10, 72, 46, 14);
 		contentPane.add(lblWhere);
 		
-		JLabel lblGroupBy = new JLabel("Group:");
-		lblGroupBy.setBounds(10, 97, 56, 14);
+		JLabel lblGroupBy = new JLabel("Group by:");
+		lblGroupBy.setBounds(10, 253, 78, 14);
 		contentPane.add(lblGroupBy);
 		
 		JLabel lblHaving = new JLabel("Having:");
-		lblHaving.setBounds(10, 120, 46, 14);
+		lblHaving.setBounds(10, 279, 56, 14);
 		contentPane.add(lblHaving);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(47, 68, 365, 20);
+		textField_2.setBounds(10, 95, 423, 143);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(47, 94, 365, 20);
+		textField_3.setBounds(78, 250, 355, 20);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(47, 117, 365, 20);
+		textField_4.setBounds(10, 293, 423, 105);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 	}
