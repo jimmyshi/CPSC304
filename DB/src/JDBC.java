@@ -75,17 +75,35 @@ class JDBC {
 		return rs;
 	}
 	
-	public ResultSet JoinData(String select, String from, String where)
+	public ResultSet JoinData(boolean duplicate, String select, String from, String where)
 	{
 		ResultSet rs = null;
 		
 		try {
+			if(where.isEmpty() && duplicate)
+			{
+				String query = "DISTINCT SELECT " + select + " FROM " + from; 
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
 			if(where.isEmpty())
 			{
 				String query = "SELECT " + select + " FROM " + from; 
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
+				return rs;
 			}
+			
+			if(duplicate)
+			{
+				String query = "DISTINCT SELECT " + select + " FROM " + from + " WHERE " + where; 
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
 			String query = "SELECT " + select + " FROM " + from + " WHERE " + where; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -96,11 +114,35 @@ class JDBC {
 		return rs;
 	}
 	
-	public ResultSet ViewData(String name, String select, String from, String where)
+	public ResultSet ViewData(boolean duplicate, String name, String select, String from, String where)
 	{
 		ResultSet rs = null;
 		
 		try {
+			if(where.isEmpty() && duplicate)
+			{
+				String query = "CREATE VIEW " + name + " AS " +  " DISTICT SELECT " + select + " FROM " + from;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
+			if(where.isEmpty())
+			{
+				String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
+			if(duplicate)
+			{
+				String query = "CREATE VIEW " + name + " AS " +  " DISTICT SELECT " + select + " FROM " + from + " WHERE " + where;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
 			String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from + " WHERE " + where;
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
@@ -111,11 +153,35 @@ class JDBC {
 		return rs;
 	}
 	
-	public ResultSet GroupData(String select, String from, String where, String group, String having)
+	public ResultSet GroupData(boolean duplicate, String select, String from, String where, String group, String having)
 	{
 		ResultSet rs = null;
 		
 		try {
+			if(having.isEmpty() && duplicate)
+			{
+				String query =  "DISTICT SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
+			if(having.isEmpty())
+			{
+				String query =  "SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
+			if(duplicate)
+			{
+				String query =  "DISTINCT SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group + " HAVING " + having;
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+				return rs;
+			}
+			
 			String query =  "SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group + " HAVING " + having;
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);

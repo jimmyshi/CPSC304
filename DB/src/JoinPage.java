@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 
 public class JoinPage extends JFrame {
@@ -30,6 +31,7 @@ public class JoinPage extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	private JCheckBox duplictae;
 
 	/**
 	 * Launch the application.
@@ -52,19 +54,19 @@ public class JoinPage extends JFrame {
 	 */
 	public JoinPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 230);
+		setBounds(100, 100, 450, 160);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		select = new JTextField();
-		select.setBounds(77, 12, 266, 20);
+		select.setBounds(60, 12, 238, 20);
 		contentPane.add(select);
 		select.setColumns(10);
 		
 		from = new JTextField();
-		from.setBounds(77, 40, 353, 20);
+		from.setBounds(60, 41, 352, 20);
 		contentPane.add(from);
 		from.setColumns(10);
 		
@@ -73,7 +75,7 @@ public class JoinPage extends JFrame {
 		contentPane.add(lblValues);
 		
 		JLabel lblTable = new JLabel("Select:");
-		lblTable.setBounds(10, 15, 55, 14);
+		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
 		JButton btnJoin = new JButton("Join");
@@ -82,7 +84,7 @@ public class JoinPage extends JFrame {
 				String selectq = select.getText();
 				String fromq = from.getText();
 				String whereq = where.getText();
-				rs = jdbc.JoinData(selectq, fromq, whereq);
+				rs = jdbc.JoinData(duplictae.isSelected(),selectq, fromq, whereq);
 				try {
 					if(!rs.isBeforeFirst())
 					{
@@ -96,17 +98,21 @@ public class JoinPage extends JFrame {
 				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
-		btnJoin.setBounds(355, 12, 89, 23);
+		btnJoin.setBounds(308, 7, 104, 30);
 		contentPane.add(btnJoin);
 		
 		lblWhere = new JLabel("Where:");
-		lblWhere.setBounds(10, 72, 46, 14);
+		lblWhere.setBounds(10, 71, 46, 14);
 		contentPane.add(lblWhere);
 		
 		where = new JTextField();
-		where.setBounds(77, 72, 353, 120);
+		where.setBounds(60, 71, 352, 20);
 		contentPane.add(where);
 		where.setColumns(10);
+		
+		duplictae = new JCheckBox("Exclude Duplicates");
+		duplictae.setBounds(6, 99, 158, 23);
+		contentPane.add(duplictae);
 	}
 	
 	private DefaultTableModel buildTable(ResultSet rs2) throws SQLException {

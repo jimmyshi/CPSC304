@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 
 public class CreateViewPage extends JFrame {
@@ -30,6 +31,7 @@ public class CreateViewPage extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	private JCheckBox duplicate;
 
 	/**
 	 * Launch the application.
@@ -52,19 +54,19 @@ public class CreateViewPage extends JFrame {
 	 */
 	public CreateViewPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 459, 264);
+		setBounds(100, 100, 450, 215);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		Name = new JTextField();
-		Name.setBounds(59, 12, 249, 20);
+		Name.setBounds(59, 12, 243, 20);
 		contentPane.add(Name);
 		Name.setColumns(10);
 		
 		From = new JTextField();
-		From.setBounds(59, 81, 371, 20);
+		From.setBounds(59, 81, 365, 20);
 		contentPane.add(From);
 		From.setColumns(10);
 		
@@ -85,7 +87,7 @@ public class CreateViewPage extends JFrame {
 				String select = Select.getText();
 				String where = Where.getText();
 				
-				rs = jdbc.ViewData(name, select, from, where);
+				rs = jdbc.ViewData(duplicate.isSelected(),name, select, from, where);
 				
 				try {
 					if(!rs.isBeforeFirst())
@@ -123,7 +125,7 @@ public class CreateViewPage extends JFrame {
 				return new DefaultTableModel(data,columnNames);
 			}
 		});
-		btnCreateViewPage.setBounds(320, 11, 110, 23);
+		btnCreateViewPage.setBounds(310, 11, 114, 23);
 		contentPane.add(btnCreateViewPage);
 		
 		JLabel lblSelect = new JLabel("Select:");
@@ -131,7 +133,7 @@ public class CreateViewPage extends JFrame {
 		contentPane.add(lblSelect);
 		
 		Select = new JTextField();
-		Select.setBounds(59, 49, 371, 20);
+		Select.setBounds(59, 49, 365, 20);
 		contentPane.add(Select);
 		Select.setColumns(10);
 		
@@ -140,8 +142,12 @@ public class CreateViewPage extends JFrame {
 		contentPane.add(lblWhere);
 		
 		Where = new JTextField();
-		Where.setBounds(59, 113, 374, 97);
+		Where.setBounds(59, 113, 365, 20);
 		contentPane.add(Where);
 		Where.setColumns(10);
+		
+		duplicate = new JCheckBox("Exclude Duplicates");
+		duplicate.setBounds(6, 146, 320, 23);
+		contentPane.add(duplicate);
 	}
 }

@@ -50,9 +50,10 @@ public class HomePage extends JFrame {
 	 * Create the frame.
 	 */
 	public HomePage() {
+		setTitle("Home");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 117);
+		setBounds(100, 100, 450, 215);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,32 +61,32 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(6, 6, 488, 80);
+		panel.setBounds(0, 11, 434, 145);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Insert");
-		btnInsert.setBounds(20, 6, 120, 30);
+		btnInsert.setBounds(20, 11, 120, 49);
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(183, 6, 120, 30);
+		btnDelete.setBounds(160, 11, 120, 49);
 		panel.add(btnDelete);
 		
 		JButton btnJoin = new JButton("Join");
-		btnJoin.setBounds(344, 6, 120, 30);
+		btnJoin.setBounds(297, 11, 120, 49);
 		panel.add(btnJoin);
 		
 		JButton btnSelect = new JButton("Select");
-		btnSelect.setBounds(20, 47, 120, 30);
+		btnSelect.setBounds(20, 86, 120, 48);
 		panel.add(btnSelect);
 		
 		JButton btnView = new JButton("View");
-		btnView.setBounds(183, 47, 120, 30);
+		btnView.setBounds(160, 86, 120, 48);
 		panel.add(btnView);
 		
 		JButton btnGroup = new JButton("Group");
-		btnGroup.setBounds(344, 47, 120, 30);
+		btnGroup.setBounds(297, 86, 120, 48);
 		panel.add(btnGroup);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +98,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 InsertPage newpage = new InsertPage();
                 newpage.setTitle("Insert");
-                newpage.setSize(450, 400);
+               // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);
@@ -113,7 +114,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 DeletePage newpage = new DeletePage();
                 newpage.setTitle("Delete");
-                newpage.setSize(450, 400);
+               // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);
@@ -129,7 +130,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 JoinPage newpage = new JoinPage();
                 newpage.setTitle("Join");
-                newpage.setSize(450, 400);
+              //  newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);
@@ -145,7 +146,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 SelectPage newpage = new SelectPage();
                 newpage.setTitle("Select");
-                newpage.setSize(450, 400);
+               // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);
@@ -161,7 +162,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 CreateViewPage newpage = new CreateViewPage();
                 newpage.setTitle("Select");
-                newpage.setSize(450, 400);
+              //  newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);
@@ -177,7 +178,7 @@ public class HomePage extends JFrame {
             private void NextActionPerformed(ActionEvent evt) {
                 Groups newpage = new Groups();
                 newpage.setTitle("Group");
-                newpage.setSize(450, 400);
+               // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newpage.setVisible(true);

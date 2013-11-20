@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 
 
 public class Groups extends JFrame {
@@ -30,6 +31,7 @@ public class Groups extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	private JCheckBox duplicate;
 
 	/**
 	 * Launch the application.
@@ -52,19 +54,19 @@ public class Groups extends JFrame {
 	 */
 	public Groups() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 433);
+		setBounds(100, 100, 450, 215);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		Select = new JTextField();
-		Select.setBounds(68, 12, 242, 20);
+		Select.setBounds(69, 12, 237, 20);
 		contentPane.add(Select);
 		Select.setColumns(10);
 		
 		From = new JTextField();
-		From.setBounds(68, 44, 365, 20);
+		From.setBounds(72, 43, 347, 20);
 		contentPane.add(From);
 		From.setColumns(10);
 		
@@ -86,7 +88,7 @@ public class Groups extends JFrame {
 				String groupby = GroupBy.getText();
 				String having = Having.getText();
 				
-				rs = jdbc.GroupData(select, from, where, groupby, having);
+				rs = jdbc.GroupData(duplicate.isSelected(),select, from, where, groupby, having);
 				
 				try {
 					if(!rs.isBeforeFirst())
@@ -124,7 +126,7 @@ public class Groups extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		btnGroupSelect.setBounds(322, 12, 111, 23);
+		btnGroupSelect.setBounds(313, 11, 111, 23);
 		contentPane.add(btnGroupSelect);
 		
 		JLabel lblWhere = new JLabel("Where:");
@@ -132,26 +134,30 @@ public class Groups extends JFrame {
 		contentPane.add(lblWhere);
 		
 		JLabel lblGroupBy = new JLabel("Group by:");
-		lblGroupBy.setBounds(10, 253, 78, 14);
+		lblGroupBy.setBounds(10, 106, 59, 14);
 		contentPane.add(lblGroupBy);
 		
 		JLabel lblHaving = new JLabel("Having:");
-		lblHaving.setBounds(10, 279, 56, 14);
+		lblHaving.setBounds(10, 131, 46, 14);
 		contentPane.add(lblHaving);
 		
 		Where = new JTextField();
-		Where.setBounds(10, 95, 423, 143);
+		Where.setBounds(72, 75, 347, 20);
 		contentPane.add(Where);
 		Where.setColumns(10);
 		
 		GroupBy = new JTextField();
-		GroupBy.setBounds(78, 250, 355, 20);
+		GroupBy.setBounds(72, 103, 347, 20);
 		contentPane.add(GroupBy);
 		GroupBy.setColumns(10);
 		
 		Having = new JTextField();
-		Having.setBounds(10, 293, 423, 105);
+		Having.setBounds(72, 131, 347, 20);
 		contentPane.add(Having);
 		Having.setColumns(10);
+		
+		duplicate = new JCheckBox("Exclude Duplicates");
+		duplicate.setBounds(10, 152, 149, 23);
+		contentPane.add(duplicate);
 	}
 }

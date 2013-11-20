@@ -50,19 +50,19 @@ public class InsertPage extends JFrame {
 	 */
 	public InsertPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 100);
+		setBounds(100, 100, 450, 110);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		table = new JTextField();
-		table.setBounds(57, 12, 266, 20);
+		table.setBounds(60, 12, 238, 20);
 		contentPane.add(table);
 		table.setColumns(10);
 		
 		value = new JTextField();
-		value.setBounds(57, 40, 266, 20);
+		value.setBounds(60, 41, 352, 20);
 		contentPane.add(value);
 		value.setColumns(10);
 		
@@ -93,7 +93,7 @@ public class InsertPage extends JFrame {
 				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
-		btnInsert.setBounds(335, 12, 89, 23);
+		btnInsert.setBounds(308, 7, 104, 30);
 		contentPane.add(btnInsert);
 	}
 	private DefaultTableModel buildTable(ResultSet rs2) throws SQLException {

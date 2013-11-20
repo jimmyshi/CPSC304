@@ -52,19 +52,19 @@ public class SelectPage extends JFrame {
 	 */
 	public SelectPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 100);
+		setBounds(100, 100, 450, 110);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		textField = new JTextField();
-		textField.setBounds(47, 12, 266, 20);
+		textField.setBounds(56, 12, 261, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
 		textField_1 = new JTextField();
-		textField_1.setBounds(47, 41, 266, 20);
+		textField_1.setBounds(57, 41, 367, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 
@@ -97,7 +97,7 @@ public class SelectPage extends JFrame {
 			}
 		});
 		
-		btnSelect.setBounds(323, 11, 89, 23);
+		btnSelect.setBounds(320, 7, 104, 30);
 		contentPane.add(btnSelect);
 
 

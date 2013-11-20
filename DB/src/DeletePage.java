@@ -50,19 +50,19 @@ public class DeletePage extends JFrame {
 	 */
 	public DeletePage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 201);
+		setBounds(100, 100, 450, 110);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		table = new JTextField();
-		table.setBounds(60, 12, 253, 20);
+		table.setBounds(60, 12, 238, 20);
 		contentPane.add(table);
 		table.setColumns(10);
 		
 		where = new JTextField();
-		where.setBounds(60, 41, 352, 100);
+		where.setBounds(60, 41, 352, 20);
 		contentPane.add(where);
 		where.setColumns(10);
 		
@@ -93,7 +93,7 @@ public class DeletePage extends JFrame {
 				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
-		btnDelete.setBounds(323, 11, 89, 23);
+		btnDelete.setBounds(308, 7, 104, 30);
 		contentPane.add(btnDelete);
 	}
 	
