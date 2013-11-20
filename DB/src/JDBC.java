@@ -80,7 +80,13 @@ class JDBC {
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECTt " + select + " FROM " + from + " WHERE " + where; 
+			if(where.isEmpty())
+			{
+				String query = "SELECT " + select + " FROM " + from; 
+				Statement stmt = con.createStatement();
+				rs = stmt.executeQuery(query);
+			}
+			String query = "SELECT " + select + " FROM " + from + " WHERE " + where; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 
