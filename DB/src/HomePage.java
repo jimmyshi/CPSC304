@@ -69,15 +69,15 @@ public class HomePage extends JFrame {
 		btnInsert.setBounds(20, 11, 120, 49);
 		panel.add(btnInsert);
 		
-		JButton btnDelete = new JButton("Delete");
+		JButton btnDelete = new JButton("Delete Tuple");
 		btnDelete.setBounds(160, 11, 120, 49);
 		panel.add(btnDelete);
 		
-		JButton btnJoin = new JButton("Join");
+		JButton btnJoin = new JButton("Join/Select");
 		btnJoin.setBounds(297, 11, 120, 49);
 		panel.add(btnJoin);
 		
-		JButton btnSelect = new JButton("Select");
+		JButton btnSelect = new JButton("Select Table");
 		btnSelect.setBounds(20, 86, 120, 48);
 		panel.add(btnSelect);
 		

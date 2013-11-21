@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class DeletePage extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	String tablename;
 
 	/**
 	 * Launch the application.
@@ -56,11 +58,6 @@ public class DeletePage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		table = new JTextField();
-		table.setBounds(60, 12, 238, 20);
-		contentPane.add(table);
-		table.setColumns(10);
-		
 		where = new JTextField();
 		where.setBounds(60, 41, 352, 20);
 		contentPane.add(where);
@@ -74,12 +71,42 @@ public class DeletePage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
+		String[] tableList ={
+				"",
+				"DNA",
+				"Coding_region",
+				"Contains",
+				"Interacting_Stimuli",
+				"Large_Ribosomal_Subunit",
+				"mRNA",
+				"Produces",
+				"Protein",
+				"Regulatory_Proteins",
+				"RNA",
+				"rRNA",
+				"Small_Ribosomal_Subunit",
+				"tRNA",
+		};
+
+		final JComboBox comboBox = new JComboBox(tableList);
+		comboBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tablename = (String) comboBox.getSelectedItem();
+				System.out.println(tablename);
+			}
+			
+		});
+		
+		comboBox.setBounds(60, 12, 238, 20);
+		contentPane.add(comboBox);
+		
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String tableq = table.getText();
 				String whereq = where.getText();
-				rs = jdbc.DeleteData(tableq, whereq);
+				rs = jdbc.DeleteData(tablename, whereq);
 				try {
 					if(!rs.isBeforeFirst())
 					{

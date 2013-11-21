@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,6 +33,7 @@ public class JoinPage extends JFrame {
 	private ResultSet rs;
 	private JTable jtable;
 	private JCheckBox duplictae;
+	String tablename;
 
 	/**
 	 * Launch the application.
@@ -77,6 +79,33 @@ public class JoinPage extends JFrame {
 		JLabel lblTable = new JLabel("Select:");
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
+		
+		String[] tableList ={
+				"",
+				"Coding_region",
+				"Contains",
+				"Interacting_Stimuli",
+				"Large_Ribosomal_Subunit",
+				"mRNA",
+				"Produces",
+				"Protein",
+				"Regulatory_Proteins",
+				"RNA",
+				"rRNA",
+				"Small_Ribosomal_Subunit",
+				"tRNA",
+		};
+
+		final JComboBox comboBox = new JComboBox(tableList);
+		comboBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tablename = (String) comboBox.getSelectedItem();
+				System.out.println(tablename);
+			}
+			
+		});
 		
 		JButton btnJoin = new JButton("Join");
 		btnJoin.addActionListener(new ActionListener() {

@@ -19,17 +19,20 @@ import java.util.Vector;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+
 import java.awt.Color;
+
 import javax.swing.UIManager;
+import javax.swing.JComboBox;
 
 public class SelectPage extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 	private JTextField textField_1;
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	String tablename;
 
 	/**
 	 * Launch the application.
@@ -58,11 +61,6 @@ public class SelectPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		textField = new JTextField();
-		textField.setBounds(56, 12, 261, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-
 		textField_1 = new JTextField();
 		textField_1.setBounds(57, 41, 367, 20);
 		contentPane.add(textField_1);
@@ -75,14 +73,43 @@ public class SelectPage extends JFrame {
 		JLabel lblTable = new JLabel("Table:");
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
+		
+		String[] tableList ={
+				"",
+				"DNA",
+				"Coding_region",
+				"Contains",
+				"Interacting_Stimuli",
+				"Large_Ribosomal_Subunit",
+				"mRNA",
+				"Produces",
+				"Protein",
+				"Regulatory_Proteins",
+				"RNA",
+				"rRNA",
+				"Small_Ribosomal_Subunit",
+				"tRNA",
+		};
 
+		final JComboBox comboBox = new JComboBox(tableList);
+		comboBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tablename = (String) comboBox.getSelectedItem();
+				System.out.println(tablename);
+			}
+			
+		});
+		
+		comboBox.setBounds(57, 10, 251, 27);
+		contentPane.add(comboBox);
+		
 		JButton btnSelect = new JButton("Select");
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				String table = textField.getText();
 				String where = textField_1.getText();
-				rs = jdbc.SelectData(table, where);
+				rs = jdbc.SelectData(tablename, where);
 				try {
 					if(!rs.isBeforeFirst())
 					{
@@ -99,6 +126,23 @@ public class SelectPage extends JFrame {
 		
 		btnSelect.setBounds(320, 7, 104, 30);
 		contentPane.add(btnSelect);
+		
+
+//		
+//		final JComboBox comboBox = new JComboBox(tableList);
+//		comboBox.addActionListener(new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				table = (String) comboBox.getSelectedItem();
+//				System.out.println(table);
+//			}
+//			
+//		});
+//		
+//		comboBox.setBounds(57, 10, 251, 27);
+//		contentPane.add(comboBox);
+//		
 
 
 	}

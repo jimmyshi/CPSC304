@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class InsertPage extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
+	String tablename;
 
 	/**
 	 * Launch the application.
@@ -56,11 +58,6 @@ public class InsertPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		table = new JTextField();
-		table.setBounds(60, 12, 238, 20);
-		contentPane.add(table);
-		table.setColumns(10);
-		
 		value = new JTextField();
 		value.setBounds(60, 41, 352, 20);
 		contentPane.add(value);
@@ -74,12 +71,42 @@ public class InsertPage extends JFrame {
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		
+		String[] tableList ={
+				"",
+				"DNA",
+				"Coding_region",
+				"Contains",
+				"Interacting_Stimuli",
+				"Large_Ribosomal_Subunit",
+				"mRNA",
+				"Produces",
+				"Protein",
+				"Regulatory_Proteins",
+				"RNA",
+				"rRNA",
+				"Small_Ribosomal_Subunit",
+				"tRNA",
+		};
+
+		final JComboBox comboBox = new JComboBox(tableList);
+		comboBox.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tablename = (String) comboBox.getSelectedItem();
+				System.out.println(tablename);
+			}
+			
+		});
+		
+		comboBox.setBounds(60, 12, 238, 20);
+		contentPane.add(comboBox);
+		
 		JButton btnInsert = new JButton("Insert");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String tableq = table.getText();
 				String valueq = value.getText();
-				rs = jdbc.InsertData(tableq, valueq);
+				rs = jdbc.InsertData(tablename, valueq);
 				try {
 					if(!rs.isBeforeFirst())
 					{
