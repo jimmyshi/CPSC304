@@ -41,7 +41,7 @@ public class InsertPage extends JFrame {
 					InsertPage frame = new InsertPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 		});
@@ -94,7 +94,6 @@ public class InsertPage extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tablename = (String) comboBox.getSelectedItem();
-				System.out.println(tablename);
 			}
 			
 		});
@@ -115,7 +114,8 @@ public class InsertPage extends JFrame {
 					jtable = new JTable(buildTable(rs));
 				}
 				catch (SQLException e1) {
-					e1.printStackTrace();
+					
+					System.out.println(e1.getMessage());
 				}
 				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}

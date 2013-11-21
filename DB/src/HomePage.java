@@ -65,7 +65,7 @@ public class HomePage extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnInsert = new JButton("Insert");
+		JButton btnInsert = new JButton("Insert Tuple");
 		btnInsert.setBounds(20, 11, 120, 49);
 		panel.add(btnInsert);
 		
@@ -73,19 +73,19 @@ public class HomePage extends JFrame {
 		btnDelete.setBounds(160, 11, 120, 49);
 		panel.add(btnDelete);
 		
-		JButton btnJoin = new JButton("Join/Select");
+		JButton btnJoin = new JButton("Select Multiple attributes from different table");
 		btnJoin.setBounds(297, 11, 120, 49);
 		panel.add(btnJoin);
 		
-		JButton btnSelect = new JButton("Select Table");
+		JButton btnSelect = new JButton("View");
 		btnSelect.setBounds(20, 86, 120, 48);
 		panel.add(btnSelect);
 		
-		JButton btnView = new JButton("View");
+		JButton btnView = new JButton("Create Table from Existing Data");
 		btnView.setBounds(160, 86, 120, 48);
 		panel.add(btnView);
 		
-		JButton btnGroup = new JButton("Group");
+		JButton btnGroup = new JButton("Count");
 		btnGroup.setBounds(297, 86, 120, 48);
 		panel.add(btnGroup);
 		
