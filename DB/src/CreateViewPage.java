@@ -70,11 +70,11 @@ public class CreateViewPage extends JFrame {
 		contentPane.add(From);
 		From.setColumns(10);
 		
-		JLabel lblValues = new JLabel("From:");
+		JLabel lblValues = new JLabel("Tables");
 		lblValues.setBounds(10, 84, 46, 14);
 		contentPane.add(lblValues);
 		
-		JLabel lblTable = new JLabel("Name:");
+		JLabel lblTable = new JLabel("Name of new tables:");
 		lblTable.setBounds(10, 15, 46, 14);
 		contentPane.add(lblTable);
 		

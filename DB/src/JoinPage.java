@@ -56,28 +56,30 @@ public class JoinPage extends JFrame {
 	 */
 	public JoinPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 160);
+		setBounds(100, 100, 450, 219);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		select = new JTextField();
-		select.setBounds(60, 12, 238, 20);
+		select.setBounds(10, 24, 402, 20);
+		select.setText("e.g p.p_sequence_length, p2.sixteens_sequence");
 		contentPane.add(select);
 		select.setColumns(10);
 		
 		from = new JTextField();
-		from.setBounds(60, 41, 352, 20);
+		from.setBounds(10, 71, 402, 20);
+		from.setText("e.g Protein p, Produces p2");
 		contentPane.add(from);
 		from.setColumns(10);
 		
-		JLabel lblValues = new JLabel("From:");
-		lblValues.setBounds(10, 43, 46, 14);
+		JLabel lblValues = new JLabel("What tables you want the values from?");
+		lblValues.setBounds(10, 55, 402, 14);
 		contentPane.add(lblValues);
 		
-		JLabel lblTable = new JLabel("Select:");
-		lblTable.setBounds(10, 15, 46, 14);
+		JLabel lblTable = new JLabel("What you want to know?");
+		lblTable.setBounds(10, 11, 402, 14);
 		contentPane.add(lblTable);
 		
 		String[] tableList ={
@@ -107,7 +109,7 @@ public class JoinPage extends JFrame {
 			
 		});
 		
-		JButton btnJoin = new JButton("Join");
+		JButton btnJoin = new JButton("Find");
 		btnJoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String selectq = select.getText();
@@ -127,20 +129,21 @@ public class JoinPage extends JFrame {
 				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
-		btnJoin.setBounds(308, 7, 104, 30);
+		btnJoin.setBounds(308, 140, 104, 30);
 		contentPane.add(btnJoin);
 		
-		lblWhere = new JLabel("Where:");
-		lblWhere.setBounds(10, 71, 46, 14);
+		lblWhere = new JLabel("What requirements do you want from the values?");
+		lblWhere.setBounds(10, 102, 352, 14);
 		contentPane.add(lblWhere);
 		
 		where = new JTextField();
-		where.setBounds(60, 71, 352, 20);
+		where.setBounds(10, 117, 402, 20);
+		where.setText("e.g. p.sequence_length = 12");
 		contentPane.add(where);
 		where.setColumns(10);
 		
 		duplictae = new JCheckBox("Exclude Duplicates");
-		duplictae.setBounds(6, 99, 158, 23);
+		duplictae.setBounds(6, 144, 158, 23);
 		contentPane.add(duplictae);
 	}
 	

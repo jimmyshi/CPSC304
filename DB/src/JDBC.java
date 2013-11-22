@@ -31,9 +31,11 @@ class JDBC {
 		try {
 			if(where.isEmpty())
 			{
-				String query = "SELECT * FROM " + table; 
+				String query = "SELECT * FROM " + table;
+				System.out.println(query);
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
+				return rs;
 			}
 			String query = "SELECT * FROM " + table + " WHERE " + where ; 
 			Statement stmt = con.createStatement();

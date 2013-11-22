@@ -53,7 +53,7 @@ public class HomePage extends JFrame {
 		setTitle("Home");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 215);
+		setBounds(100, 100, 480, 200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,32 +61,32 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 11, 434, 145);
+		panel.setBounds(0, 11, 458, 147);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnInsert = new JButton("Insert Tuple");
-		btnInsert.setBounds(20, 11, 120, 49);
+		JButton btnInsert = new JButton("Compare 16s Sequence");
+		btnInsert.setBounds(10, 11, 145, 60);
 		panel.add(btnInsert);
 		
-		JButton btnDelete = new JButton("Delete Tuple");
-		btnDelete.setBounds(160, 11, 120, 49);
+		JButton btnDelete = new JButton("Identify DNA Genus");
+		btnDelete.setBounds(158, 11, 145, 60);
 		panel.add(btnDelete);
 		
-		JButton btnJoin = new JButton("Select Multiple attributes from different table");
-		btnJoin.setBounds(297, 11, 120, 49);
+		JButton btnJoin = new JButton("Select Values");
+		btnJoin.setBounds(305, 11, 145, 60);
 		panel.add(btnJoin);
 		
 		JButton btnSelect = new JButton("View");
-		btnSelect.setBounds(20, 86, 120, 48);
+		btnSelect.setBounds(10, 75, 145, 60);
 		panel.add(btnSelect);
 		
-		JButton btnView = new JButton("Create Table from Existing Data");
-		btnView.setBounds(160, 86, 120, 48);
+		JButton btnView = new JButton("Create Table");
+		btnView.setBounds(158, 75, 145, 60);
 		panel.add(btnView);
 		
 		JButton btnGroup = new JButton("Count");
-		btnGroup.setBounds(297, 86, 120, 48);
+		btnGroup.setBounds(305, 75, 145, 60);
 		panel.add(btnGroup);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
