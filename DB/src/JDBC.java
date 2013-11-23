@@ -26,6 +26,19 @@ class JDBC {
 		}
 	}
 	
+	public ResultSet GetAllTableNames(){
+		ResultSet rs = null;
+		try{
+			String query = "select table_name from user_tables";
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			return rs;
+		} catch (SQLException ex){
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
 	public ResultSet SelectData(String table, String where)
 	{
 		ResultSet rs = null;
@@ -61,23 +74,26 @@ class JDBC {
 		} catch (SQLException ex) {
 			System.out.println(ex);
 			JOptionPane.showMessageDialog(null,
-					"At least one value is missing", "Missing Value",
+					ex, "Error Message",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return rs;
 	}
 	
-	public ResultSet DeleteData(String table, String values)
+	public ResultSet DeleteData(String table, String column, String value)
 	{
 		ResultSet rs = null;
 		
 		try {
-			String query = "DELETE FROM " + table + " WHERE " + values; 
+			String query = "DELETE FROM " + table + " WHERE " + column +"=" + "'" + value + "'"; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 
 		} catch (SQLException ex) {
 			System.out.println(ex);
+			JOptionPane.showMessageDialog(null,
+					ex, "Error Message",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return rs;
 	}
@@ -198,6 +214,7 @@ class JDBC {
 		}
 		return rs;
 	}
+
 	
 	/*public static void main(String argv[]) {
 		Connection con = null;
