@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 class JDBC {
 	
 	Connection con = null;
@@ -47,17 +49,20 @@ class JDBC {
 		return rs;
 	}
 	
-	public ResultSet InsertData(String table, String values)
+	public ResultSet InsertData2(String table, String value1, String value2)
 	{
 		ResultSet rs = null;
 		
 		try {
-			String query = "INSERT INTO " + table + " VALUES (" + values + ")"; 
+			String query = "INSERT INTO " + table + " VALUES (" + "'" + value1 + "'" + "," + value2 + ")"; 
 			Statement stmt = con.createStatement();
 			rs = stmt.executeQuery(query);
 
 		} catch (SQLException ex) {
 			System.out.println(ex);
+			JOptionPane.showMessageDialog(null,
+					"At least one value is missing", "Missing Value",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return rs;
 	}

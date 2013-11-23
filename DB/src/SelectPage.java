@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.JTextField;
@@ -36,7 +37,7 @@ public class SelectPage extends JFrame {
 	private ResultSet rs;
 	private JTable jtable;
 	String tablename;
-	JScrollPane pane;
+	JScrollPane scrollpane;
 	String selectedValue;
 	private JTextField textField1;
 	private JTextField textField2;
@@ -52,6 +53,7 @@ public class SelectPage extends JFrame {
 	private JLabel label1;
 	private JLabel label2;
 	private JLabel label3;
+	String selectedString;
 
 	/**
 	 * Launch the application.
@@ -89,9 +91,9 @@ public class SelectPage extends JFrame {
 		contentPane.add(panel2);
 		panel2.setLayout(null);
 
-		pane = new JScrollPane(jtable);
-		pane.setBounds(10, 41, 414, 164);
-		contentPane.add(pane);
+		scrollpane = new JScrollPane(jtable);
+		scrollpane.setBounds(10, 41, 414, 164);
+		contentPane.add(scrollpane);
 
 		final JComboBox comboBox = new JComboBox(tableList);
 		tablename = (String) comboBox.getSelectedItem();
@@ -102,12 +104,11 @@ public class SelectPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				tablename = (String) comboBox.getSelectedItem();
-				for (int i = 0; i < tableList.length ; i++) {
-					if(tablename == tableList[i]){
+				for (int i = 0; i < tableList.length; i++) {
+					if (tablename == tableList[i]) {
 						sval = i;
 						break;
-					}
-					else
+					} else
 						sval = 0;
 				}
 				switch (sval) {
@@ -150,7 +151,7 @@ public class SelectPage extends JFrame {
 				case 12:
 					trna();
 					break;
-			}
+				}
 				createScrollTable();
 			}
 
@@ -159,21 +160,15 @@ public class SelectPage extends JFrame {
 		comboBox.setBounds(57, 10, 367, 27);
 		contentPane.add(comboBox);
 
-		JButton btnSelect = new JButton("Delete Selected");
-		btnSelect.addActionListener(new ActionListener() {
+		JButton btnDelete = new JButton("Delete Selected");
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String where = textField2.getText();
-				rs = jdbc.SelectData(tablename, where);
-				try {
-					if (!rs.isBeforeFirst()) {
-						jtable = new JTable();
-
-					}
-					jtable = new JTable(buildTable(rs));
-
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				if (selectedString == null) {
+					JOptionPane.showMessageDialog(null,
+							"You have not selected any row to delete",
+							"No Selection", JOptionPane.ERROR_MESSAGE);
 				}
+
 				// JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 				// JOptionPane optionpane = new JOptionPane();
 				// optionpane.showMessageDialog(null, new JScrollPane(jtable));
@@ -184,13 +179,13 @@ public class SelectPage extends JFrame {
 			}
 		});
 
-		btnSelect.setBounds(89, 205, 257, 30);
-		contentPane.add(btnSelect);
+		btnDelete.setBounds(89, 205, 257, 30);
+		contentPane.add(btnDelete);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(414, 302, -397, -53);
 		contentPane.add(panel);
-		
+
 		panel2.removeAll();
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
@@ -209,13 +204,26 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add DNA");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+
+		JButton btnInsert = new JButton("Enter Following Values to Add DNA");
+		btnInsert.setBounds(10, 10, 375, 30);
+		btnInsert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					tablename = "DNA";
+					String value1 = textField1.getText();
+					String value2 = textField2.getText();
+					rs = jdbc.InsertData2(tablename, value1, value2);
+					System.out.println(value1 + " and " + value2
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+					textField2.setText(""); 
+			}
+		});
+		panel2.add(btnInsert);
 
 	}
-	
+
 	private void dna() {
 		// TODO Auto-generated method stub
 		setBounds(100, 100, 450, 460);
@@ -238,14 +246,13 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
+
 		JButton btnNewButton = new JButton("Enter Following Values to Add DNA:");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 
-
 	}
-	
+
 	protected void coding_region() {
 		setBounds(100, 100, 450, 460);
 		panel2.setBounds(20, 250, 400, 190);
@@ -267,8 +274,9 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("CORRESPONDING PROTEIN:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add Coding region");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add Coding region");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
@@ -296,15 +304,15 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add Contains:");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add Contains:");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
-		
 
 	}
-	
+
 	protected void interacting_stimuli() {
 		setBounds(100, 100, 450, 460);
 		panel2.setBounds(20, 250, 400, 190);
@@ -318,7 +326,7 @@ public class SelectPage extends JFrame {
 		textField2.setBounds(10, 150, 375, 30);
 		panel2.add(textField2);
 		textField2.setColumns(10);
-		
+
 		JLabel lblDnucleotidesequence = new JLabel("DESCRIPTION OF STIMULI:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
@@ -326,12 +334,13 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("AA SEQUENCE:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add Interacting Stimuli");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add Interacting Stimuli");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
-		
+
 	}
 
 	protected void large_ribosomal_subunit() {
@@ -342,16 +351,17 @@ public class SelectPage extends JFrame {
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
 		textField1.setColumns(10);
-		
+
 		JLabel lblDnucleotidesequence = new JLabel("PROTEIN RRNA STRUCTURE:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add Large Ribosomal Subunit");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add Large Ribosomal Subunit");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
-		
+
 	}
 
 	protected void mrna() {
@@ -375,38 +385,39 @@ public class SelectPage extends JFrame {
 		JLabel newLabel2 = new JLabel("PROTEIN RRNA STRUCTURE:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to mRNA");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to mRNA");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
-		
+
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
-		
+
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
-		
+
 		textField5 = new JTextField();
 		textField5.setColumns(10);
 		textField5.setBounds(10, 375, 375, 30);
 		panel2.add(textField5);
-		
+
 		label1 = new JLabel("AA SEQUENCE:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
-		
+
 		label2 = new JLabel("R NUCLEOTIDE SEQUENCE:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
-		
+
 		label3 = new JLabel("R SEQUENCE LENGTH:");
 		label3.setBounds(10, 350, 200, 20);
 		panel2.add(label3);
-		
+
 	}
 
 	protected void produces() {
@@ -422,7 +433,7 @@ public class SelectPage extends JFrame {
 		textField2.setBounds(10, 150, 375, 30);
 		panel2.add(textField2);
 		textField2.setColumns(10);
-		
+
 		JLabel lblDnucleotidesequence = new JLabel("AA SEQUENCE:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
@@ -430,12 +441,13 @@ public class SelectPage extends JFrame {
 		JLabel lblNewLabel = new JLabel("SIXTEENS SEQUENCE:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to Produces");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to Produces");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
-		
+
 	}
 
 	protected void protein() {
@@ -459,29 +471,30 @@ public class SelectPage extends JFrame {
 		JLabel newLabel2 = new JLabel("PROTEIN RRNA STRUCTURE:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to mRNA");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to mRNA");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
-		
+
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
-		
+
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
-		
+
 		label1 = new JLabel("AA SEQUENCE:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
-		
+
 		label2 = new JLabel("R NUCLEOTIDE SEQUENCE:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
-		
+
 	}
 
 	protected void regulatory_proteins() {
@@ -505,43 +518,44 @@ public class SelectPage extends JFrame {
 		JLabel newLabel2 = new JLabel("D NUCLEOTIDE SEQUENCE:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to Regulatory Proteins");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to Regulatory Proteins");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
-		
+
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
-		
+
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
-		
+
 		textField5 = new JTextField();
 		textField5.setColumns(10);
 		textField5.setBounds(10, 375, 375, 30);
 		panel2.add(textField5);
-		
+
 		label1 = new JLabel("CORRESPONDING PROTEIN:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
-		
+
 		label2 = new JLabel("REG NAME:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
-		
+
 		label3 = new JLabel("DESCRIPTION OF STIMULI:");
 		label3.setBounds(10, 350, 200, 20);
 		panel2.add(label3);
-		
+
 	}
 
 	protected void rna() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	protected void rrna() {
@@ -565,29 +579,30 @@ public class SelectPage extends JFrame {
 		JLabel newLabel2 = new JLabel("SIXTEENS SEQUENCE:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to rRNA");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to rRNA");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
-		
+
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
-		
+
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
-		
+
 		label1 = new JLabel("PROTEIN RRNA STRUCTURE:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
-		
+
 		label2 = new JLabel("R SEQUENCE LENGTH:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
-		
+
 	}
 
 	protected void small_ribosomal_subunit() {
@@ -598,16 +613,17 @@ public class SelectPage extends JFrame {
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
 		textField1.setColumns(10);
-		
+
 		JLabel lblDnucleotidesequence = new JLabel("SIXTEENS SEQUENCE:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add Small Ribosomal Subunit");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add Small Ribosomal Subunit");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 		panel2.updateUI();
-		
+
 	}
 
 	protected void trna() {
@@ -631,38 +647,39 @@ public class SelectPage extends JFrame {
 		JLabel newLabel2 = new JLabel("SIXTEENS SEQUENCE:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
-		
-		JButton btnNewButton = new JButton("Enter Following Values to Add to Regulatory Proteins");
+
+		JButton btnNewButton = new JButton(
+				"Enter Following Values to Add to Regulatory Proteins");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
-		
+
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
-		
+
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
-		
+
 		textField5 = new JTextField();
 		textField5.setColumns(10);
 		textField5.setBounds(10, 375, 375, 30);
 		panel2.add(textField5);
-		
+
 		label1 = new JLabel("PROTEIN RRNA STRUCTURE:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
-		
+
 		label2 = new JLabel("ANTI CONDON:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
-		
+
 		label3 = new JLabel("R SEQUENCE LENGTH:");
 		label3.setBounds(10, 350, 200, 20);
 		panel2.add(label3);
-		
+
 	}
 
 	private DefaultTableModel buildTable(ResultSet rs2) throws SQLException {
@@ -686,9 +703,10 @@ public class SelectPage extends JFrame {
 		}
 		return new DefaultTableModel(data, columnNames);
 	}
-	
+
 	public void createScrollTable() {
 		panel2.updateUI();
+
 		String where = "";
 		rs = jdbc.SelectData(tablename, where);
 		try {
@@ -702,20 +720,20 @@ public class SelectPage extends JFrame {
 		jtable.updateUI();
 		jtable.setRowSelectionAllowed(true);
 		jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		ListSelectionModel jtableSelectedModel = jtable
-				.getSelectionModel();
+		ListSelectionModel jtableSelectedModel = jtable.getSelectionModel();
 		jtableSelectedModel
 				.addListSelectionListener(new ListSelectionListener() {
 
 					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						int selectedindex = jtable.getSelectedRow();
-						System.out.println((String) jtable.getModel()
-								.getValueAt(selectedindex, 0));
+						selectedString = (String) jtable.getModel().getValueAt(
+								selectedindex, 0);
+						System.out.println(selectedString);
 					}
 
 				});
-		pane.setViewportView(jtable);
-		
+		scrollpane.setViewportView(jtable);
+
 	}
 }
