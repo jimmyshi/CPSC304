@@ -214,6 +214,17 @@ class JDBC {
 		}
 		return rs;
 	}
+	
+	public void DropView(String table)
+	{
+		try {
+			String query = "DROP VIEW " + table;
+			Statement stmt = con.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+	}
 
 	
 	/*public static void main(String argv[]) {

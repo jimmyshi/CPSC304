@@ -96,13 +96,53 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                InsertPage newpage = new InsertPage();
-                newpage.setTitle("Insert");
-               // newpage.setSize(450, 400);
-                newpage.setLocationRelativeTo(null);
-                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                newpage.setVisible(true);
+            	ResultSet rs;
+            	JTable jtable = null;
+            	rs = null;
+            	
+            	jdbc.ViewData(false, "ABCD", "G_name",  "sixteens_sequence", "G.speciecat = C.cat");
+            	rs = jdbc.JoinData(false, "*", "ABCD A, ABCD B", "A.G_name <> B.G_name");
+            	jdbc.DropView("ABCD");
+
+            	try{
+            		if(!rs.isBeforeFirst())
+            		{
+            			jtable = new JTable();
+            		}
+            		else
+            		{
+            			jtable = new JTable(buildTable(rs));
+            		}	
+            	}
+            	catch(SQLException e1)
+            	{
+            		e1.printStackTrace();
+            	}
+            	JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
             }
+
+			private TableModel buildTable(ResultSet rs) throws SQLException{
+				// TODO Auto-generated method stub
+				ResultSetMetaData metaData = rs.getMetaData();
+
+				// names of columns
+				Vector<String> columnNames = new Vector<String>();
+				int columnCount = metaData.getColumnCount();
+				for (int column = 1; column <= columnCount; column++) {
+					columnNames.add(metaData.getColumnName(column));
+				}
+
+				// data of the table
+				Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+				while (rs.next()) {
+					Vector<Object> vector = new Vector<Object>();
+					for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+						vector.add(rs.getObject(columnIndex));
+					}
+					data.add(vector);
+				}
+				return new DefaultTableModel(data,columnNames);
+			}
         });
 		
 		btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +152,7 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                DeletePage newpage = new DeletePage();
+                IdentifyPage newpage = new IdentifyPage();
                 newpage.setTitle("Delete");
                // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
