@@ -71,22 +71,32 @@ public class IdentifyPage extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String inputq = input.getText();
+		
 				rs = jdbc.JoinData(false, "G.G_name", "Genus G, Contains C",
 						"C.sixteens_sequence = " + "'" + inputq + "'" + " AND " + "C.speciecat = G.cat");
 				try {
 					if(!rs.isBeforeFirst())
 					{
-						jtable = new JTable();
+						if(inputq.isEmpty())
+						{
+							//JOptionPane.showMessageDialog(null, "No 16s Sequence entered");
+							JOptionPane.showMessageDialog(null, "No 16s Sequence entered", "Error Detected", JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "The entered 16s sequence does not exist", "16s sequence not found", JOptionPane.ERROR_MESSAGE);
+						}
+						
 					}
 					else
 					{
 						jtable = new JTable(buildTable(rs));
+						JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 					}
 				}
 				catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}
 		});
 		btnDelete.setBounds(10, 43, 92, 20);

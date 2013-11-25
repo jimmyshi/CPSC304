@@ -100,8 +100,8 @@ public class HomePage extends JFrame {
             	JTable jtable = null;
             	rs = null;
             	
-            	jdbc.ViewData(true, "ABCD", "G_name",  "Contains C, Genus G", "G.cat = C.speciecat");
-            	rs = jdbc.JoinData(false, "*", "ABCD A, ABCD B", "A.G_name <> B.G_name");
+            	jdbc.ViewData(true, "ABCD", "G_name, sixteens_sequence",  "Contains C, Genus G", "G.cat = C.speciecat");
+            	rs = jdbc.JoinData(true, "*", "ABCD A, ABCD B", "A.G_name <> B.G_name");
             	jdbc.DropView("ABCD");
 
             	try{
