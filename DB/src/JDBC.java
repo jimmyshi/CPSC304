@@ -144,7 +144,8 @@ class JDBC {
 		try {
 			if(where.isEmpty() && duplicate)
 			{
-				String query = "CREATE VIEW " + name + " AS " +  " DISTICT SELECT " + select + " FROM " + from;
+				String query = "CREATE VIEW " + name + " AS " +  " SELECT DISTINCT " + select + " FROM " + from;
+				System.out.println(query);
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -153,6 +154,7 @@ class JDBC {
 			if(where.isEmpty())
 			{
 				String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from;
+				System.out.println(query);
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -160,7 +162,7 @@ class JDBC {
 			
 			if(duplicate)
 			{
-				String query = "CREATE VIEW " + name + " AS " +  " DISTICT SELECT " + select + " FROM " + from + " WHERE " + where;
+				String query = "CREATE VIEW " + name + " AS " +  " SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where;
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -183,7 +185,7 @@ class JDBC {
 		try {
 			if(having.isEmpty() && duplicate)
 			{
-				String query =  "DISTICT SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group;
+				String query =  "SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group;
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -220,6 +222,7 @@ class JDBC {
 		try {
 			String query = "DROP VIEW " + table;
 			Statement stmt = con.createStatement();
+			System.out.println(query);
 			stmt.executeQuery(query);
 		} catch (SQLException ex) {
 			System.out.println(ex);
