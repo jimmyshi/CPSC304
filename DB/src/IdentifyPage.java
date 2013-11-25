@@ -71,8 +71,8 @@ public class IdentifyPage extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String inputq = input.getText();
-				rs = jdbc.JoinData(false, "G_name", "Genus G, Contains C",
-						"C.sixteens_sequence = " + inputq + " AND " + "C.speciecat = G.cat");
+				rs = jdbc.JoinData(false, "G.G_name", "Genus G, Contains C",
+						"C.sixteens_sequence = " + "'" + inputq + "'" + " AND " + "C.speciecat = G.cat");
 				try {
 					if(!rs.isBeforeFirst())
 					{

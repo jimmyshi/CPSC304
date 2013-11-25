@@ -53,7 +53,7 @@ public class HomePage extends JFrame {
 		setTitle("Home");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 480, 200);
+		setBounds(100, 100, 480, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,7 +61,7 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 11, 458, 147);
+		panel.setBounds(0, 11, 458, 250);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -70,23 +70,23 @@ public class HomePage extends JFrame {
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Identify DNA Genus");
-		btnDelete.setBounds(158, 11, 145, 60);
+		btnDelete.setBounds(10, 76, 145, 60);
 		panel.add(btnDelete);
 		
-		JButton btnJoin = new JButton("Select Values");
-		btnJoin.setBounds(305, 11, 145, 60);
+		JButton btnJoin = new JButton("Division Query");
+		btnJoin.setBounds(158, 76, 145, 60);
 		panel.add(btnJoin);
 		
 		JButton btnSelect = new JButton("View");
-		btnSelect.setBounds(10, 75, 145, 60);
+		btnSelect.setBounds(10, 147, 145, 60);
 		panel.add(btnSelect);
 		
 		JButton btnView = new JButton("Create Table");
-		btnView.setBounds(158, 75, 145, 60);
+		btnView.setBounds(158, 147, 145, 60);
 		panel.add(btnView);
 		
-		JButton btnGroup = new JButton("Count");
-		btnGroup.setBounds(305, 75, 145, 60);
+		JButton btnGroup = new JButton("Group By Query");
+		btnGroup.setBounds(305, 147, 145, 60);
 		panel.add(btnGroup);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +100,7 @@ public class HomePage extends JFrame {
             	JTable jtable = null;
             	rs = null;
             	
-            	jdbc.ViewData(false, "ABCD", "G_name",  "sixteens_sequence", "G.speciecat = C.cat");
+            	jdbc.ViewData(true, "ABCD", "G_name",  "Contains C, Genus G", "G.cat = C.speciecat");
             	rs = jdbc.JoinData(false, "*", "ABCD A, ABCD B", "A.G_name <> B.G_name");
             	jdbc.DropView("ABCD");
 
@@ -121,9 +121,9 @@ public class HomePage extends JFrame {
             	JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
             }
 
-			private TableModel buildTable(ResultSet rs) throws SQLException{
+			private TableModel buildTable(ResultSet buildRS) throws SQLException{
 				// TODO Auto-generated method stub
-				ResultSetMetaData metaData = rs.getMetaData();
+				ResultSetMetaData metaData = buildRS.getMetaData();
 
 				// names of columns
 				Vector<String> columnNames = new Vector<String>();
@@ -134,10 +134,10 @@ public class HomePage extends JFrame {
 
 				// data of the table
 				Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-				while (rs.next()) {
+				while (buildRS.next()) {
 					Vector<Object> vector = new Vector<Object>();
 					for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-						vector.add(rs.getObject(columnIndex));
+						vector.add(buildRS.getObject(columnIndex));
 					}
 					data.add(vector);
 				}
@@ -153,7 +153,7 @@ public class HomePage extends JFrame {
 
             private void NextActionPerformed(ActionEvent evt) {
                 IdentifyPage newpage = new IdentifyPage();
-                newpage.setTitle("Delete");
+                newpage.setTitle("Identify DNA Genus");
                // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -168,12 +168,12 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                JoinPage newpage = new JoinPage();
-                newpage.setTitle("Join");
-              //  newpage.setSize(450, 400);
-                newpage.setLocationRelativeTo(null);
-                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                newpage.setVisible(true);
+//                JoinPage newpage = new JoinPage();
+//                newpage.setTitle("Join");
+//              //  newpage.setSize(450, 400);
+//                newpage.setLocationRelativeTo(null);
+//                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                newpage.setVisible(true);
             }
         });
 		
@@ -216,7 +216,7 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-                Groups newpage = new Groups();
+                Count newpage = new Count();
                 newpage.setTitle("Group");
                // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);

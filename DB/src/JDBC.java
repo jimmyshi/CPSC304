@@ -105,7 +105,7 @@ class JDBC {
 		try {
 			if(where.isEmpty() && duplicate)
 			{
-				String query = "DISTINCT SELECT " + select + " FROM " + from; 
+				String query = "SELECT DISTINCT " + select + " FROM " + from; 
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -121,7 +121,7 @@ class JDBC {
 			
 			if(duplicate)
 			{
-				String query = "DISTINCT SELECT " + select + " FROM " + from + " WHERE " + where; 
+				String query = "SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where; 
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
@@ -201,7 +201,7 @@ class JDBC {
 			
 			if(duplicate)
 			{
-				String query =  "DISTINCT SELECT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group + " HAVING " + having;
+				String query =  "SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where + " GROUP BY " + group + " HAVING " + having;
 				Statement stmt = con.createStatement();
 				rs = stmt.executeQuery(query);
 				return rs;
