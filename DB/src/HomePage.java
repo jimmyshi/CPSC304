@@ -53,7 +53,7 @@ public class HomePage extends JFrame {
 		setTitle("Home");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 480, 300);
+		setBounds(100, 100, 336, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,33 +61,51 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 11, 458, 250);
+		panel.setBounds(0, 11, 308, 250);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Compare 16s Sequence");
-		btnInsert.setBounds(10, 11, 145, 60);
+		btnInsert.setBounds(10, 213, 293, 26);
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Identify DNA Genus");
-		btnDelete.setBounds(10, 76, 145, 60);
+		btnDelete.setBounds(10, 71, 145, 60);
 		panel.add(btnDelete);
 		
-		JButton btnJoin = new JButton("Division Query");
-		btnJoin.setBounds(158, 76, 145, 60);
+		JButton btnJoin = new JButton("mRNA Transcribed");
+		btnJoin.setBounds(10, 0, 145, 60);
 		panel.add(btnJoin);
 		
-		JButton btnSelect = new JButton("View");
-		btnSelect.setBounds(10, 147, 145, 60);
+		JButton btnSelect = new JButton("View Tables");
+		btnSelect.setBounds(10, 142, 145, 60);
 		panel.add(btnSelect);
 		
 		JButton btnView = new JButton("Create Table");
-		btnView.setBounds(158, 147, 145, 60);
+		btnView.setBounds(158, 71, 145, 60);
 		panel.add(btnView);
 		
-		JButton btnGroup = new JButton("Group By Query");
-		btnGroup.setBounds(305, 147, 145, 60);
+		JButton btnGroup = new JButton("Max Protein Length");
+		btnGroup.setBounds(158, 142, 145, 60);
 		panel.add(btnGroup);
+		
+		JButton btnNewButton = new JButton("Count DNA");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				NextactionPerformed(arg0);
+			}
+
+			private void NextactionPerformed(ActionEvent arg0) {
+				Count newpage = new Count();
+                newpage.setTitle("Count DNA with certain length");
+               // newpage.setSize(450, 400);
+                newpage.setLocationRelativeTo(null);
+                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newpage.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(158, 0, 145, 60);
+		panel.add(btnNewButton);
 		
 		btnInsert.addActionListener(new java.awt.event.ActionListener() {
 
@@ -100,7 +118,7 @@ public class HomePage extends JFrame {
             	JTable jtable = null;
             	rs = null;
             	
-            	jdbc.ViewData(true, "ABCD", "G_name, sixteens_sequence",  "Contains C, Genus G", "G.cat = C.speciecat");
+            	jdbc.ViewData(true, "ABCD", "G_name, sixteens_sequence",  "Contains C, Genus G", "G.cat = C.specie_cat");
             	rs = jdbc.JoinData(true, "*", "ABCD A, ABCD B", "A.G_name <> B.G_name");
             	jdbc.DropView("ABCD");
 
@@ -118,7 +136,9 @@ public class HomePage extends JFrame {
             	{
             		e1.printStackTrace();
             	}
-            	JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
+    
+            	//JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
+            	JOptionPane.showMessageDialog(null, new JScrollPane(jtable), "Resutlts", JOptionPane.PLAIN_MESSAGE);
             }
 
 			private TableModel buildTable(ResultSet buildRS) throws SQLException{
@@ -168,12 +188,11 @@ public class HomePage extends JFrame {
             }
 
             private void NextActionPerformed(ActionEvent evt) {
-//                JoinPage newpage = new JoinPage();
-//                newpage.setTitle("Join");
-//              //  newpage.setSize(450, 400);
-//                newpage.setLocationRelativeTo(null);
-//                newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                newpage.setVisible(true);
+            	DivisionPage newpage = new DivisionPage();
+            	newpage.setTitle("Find all mRNA transcribed by RNA polymerase originated from DNA sequence");
+            	newpage.setLocationRelativeTo(null);
+            	newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            	newpage.setVisible(true);
             }
         });
 		
@@ -185,7 +204,7 @@ public class HomePage extends JFrame {
 
             private void NextActionPerformed(ActionEvent evt) {
                 SelectPage newpage = new SelectPage();
-                newpage.setTitle("Select");
+                newpage.setTitle("Edit Existing Tables");
                // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -201,7 +220,7 @@ public class HomePage extends JFrame {
 
             private void NextActionPerformed(ActionEvent evt) {
                 CreateViewPage newpage = new CreateViewPage();
-                newpage.setTitle("Select");
+                newpage.setTitle("Create a New Table With Existing Data");
               //  newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -217,7 +236,7 @@ public class HomePage extends JFrame {
 
             private void NextActionPerformed(ActionEvent evt) {
                 Count newpage = new Count();
-                newpage.setTitle("Group");
+                newpage.setTitle("Find the Maximum Protein Length with the count of Nucleotide Sequence Length");
                // newpage.setSize(450, 400);
                 newpage.setLocationRelativeTo(null);
                 newpage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

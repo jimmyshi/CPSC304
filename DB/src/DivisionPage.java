@@ -16,12 +16,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 
-public class IdentifyPage extends JFrame {
+public class DivisionPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField table;
@@ -38,7 +40,7 @@ public class IdentifyPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IdentifyPage frame = new IdentifyPage();
+					DivisionPage frame = new DivisionPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +52,7 @@ public class IdentifyPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IdentifyPage() {
+	public DivisionPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 110);
 		contentPane = new JPanel();
@@ -59,45 +61,54 @@ public class IdentifyPage extends JFrame {
 		contentPane.setLayout(null);
 		
 		input = new JTextField();
-		input.setBounds(99, 12, 325, 20);
+		input.setBounds(10, 18, 414, 20);
 		contentPane.add(input);
 		input.setColumns(10);
 		
-		JLabel lblValues = new JLabel("16s Sequence:");
-		lblValues.setBounds(10, 15, 93, 14);
+		JLabel lblValues = new JLabel("Enter D Nucleotide Sequence:");
+		lblValues.setBounds(10, 0, 179, 14);
 		contentPane.add(lblValues);
 		
 		JButton btnDelete = new JButton("Find");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String inputq = input.getText();
+				
+				Pattern p = Pattern.compile("[A-Z]*");
+				Matcher m = p.matcher(inputq);
+				boolean b = m.matches();
+				
+				if(!b)
+				{
+					JOptionPane.showMessageDialog(null, "Your input value must be capitalized letters.","Wrong Input Detected", JOptionPane.ERROR_MESSAGE);
+				}else{
 		
-				rs = jdbc.JoinData(false, "G.G_name", "Genus G, Contains C",
-						"C.sixteens_sequence = " + "'" + inputq + "'" + " AND " + "C.specie_cat = G.cat");
+				rs = jdbc.DivisionQuery(input.getText());
 				try {
 					if(!rs.isBeforeFirst())
 					{
 						if(inputq.isEmpty())
 						{
 							//JOptionPane.showMessageDialog(null, "No 16s Sequence entered");
-							JOptionPane.showMessageDialog(null, "No 16s Sequence entered", "Error Detected", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No D Nucleotide Sequence entered", "Error Detected", JOptionPane.ERROR_MESSAGE);
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "The entered 16s sequence does not exist", "16s sequence not found", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "The entered D Nucleotide Sequence does not exisit", "16s sequence not found", JOptionPane.ERROR_MESSAGE);
 						}
 						
 					}
 					else
 					{
 						jtable = new JTable(buildTable(rs));
-						JOptionPane.showMessageDialog(null, new JScrollPane(jtable), "Compare Genus", 4);
+						//JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
+						JOptionPane.showMessageDialog(null, new JScrollPane(jtable), "Resutls", JOptionPane.PLAIN_MESSAGE);
 					}
 				}
 				catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-			}
+			}}
 		});
 		btnDelete.setBounds(10, 43, 92, 20);
 		contentPane.add(btnDelete);

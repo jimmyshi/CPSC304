@@ -22,10 +22,10 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 
 
-public class Count extends JFrame {
+public class MaxProteinLength extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField Length;
+	private JTextField length;
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private JTable jtable;
@@ -37,7 +37,7 @@ public class Count extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Count frame = new Count();
+					MaxProteinLength frame = new MaxProteinLength();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class Count extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Count() {
+	public MaxProteinLength() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 109);
 		contentPane = new JPanel();
@@ -57,22 +57,22 @@ public class Count extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		Length = new JTextField();
-		Length.setBounds(121, 12, 303, 20);
-		contentPane.add(Length);
-		Length.setColumns(10);
+		length = new JTextField();
+		length.setBounds(53, 12, 371, 20);
+		contentPane.add(length);
+		length.setColumns(10);
 		
-		JLabel lblTable = new JLabel("Sequence Length:");
+		JLabel lblTable = new JLabel("Count:");
 		lblTable.setBounds(10, 15, 112, 14);
 		contentPane.add(lblTable);
 		
-		JButton btnGroupSelect = new JButton("Count");
+		JButton btnGroupSelect = new JButton("Find");
 		btnGroupSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String length = Length.getText();
+				String Length = length.getText();
 				Pattern p = Pattern.compile("\\d*");
-				Matcher m = p.matcher(length);
+				Matcher m = p.matcher(Length);
 				boolean b = m.matches();
 				
 				if(!b)
@@ -80,7 +80,7 @@ public class Count extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please enter a valid positive integer","Non-Integer Detected", JOptionPane.ERROR_MESSAGE);
 				}else{
 				
-				rs = jdbc.JoinData(false, "COUNT(*)", "DNA", "d_sequence_length = " + "'" + length + "'");
+				rs = jdbc.AggregatedGroupBy(Length);
 				
 				try {
 					if(!rs.isBeforeFirst())
@@ -92,8 +92,7 @@ public class Count extends JFrame {
 				catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				//JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
-				JOptionPane.showMessageDialog(null, new JScrollPane(jtable), "Results", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, new JScrollPane(jtable));
 			}}
 
 			private TableModel buildTable(ResultSet rs) throws SQLException{
