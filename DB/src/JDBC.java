@@ -39,6 +39,19 @@ class JDBC {
 		return rs;
 	}
 	
+	public ResultSet GetAllViewNames(){
+		ResultSet rs = null;
+		try{
+			String query = "select view_name from user_views";
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			return rs;
+		} catch (SQLException ex){
+			System.out.println(ex);
+		}
+		return rs;
+	}
+	
 	public ResultSet SelectData(String table, String where)
 	{
 		ResultSet rs = null;
@@ -107,6 +120,7 @@ class JDBC {
 			{
 				String query = "SELECT DISTINCT " + select + " FROM " + from; 
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
@@ -115,6 +129,7 @@ class JDBC {
 			{
 				String query = "SELECT " + select + " FROM " + from; 
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
@@ -123,16 +138,19 @@ class JDBC {
 			{
 				String query = "SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where; 
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
 			
 			String query = "SELECT " + select + " FROM " + from + " WHERE " + where; 
 			Statement stmt = con.createStatement();
+			System.out.println(query);
 			rs = stmt.executeQuery(query);
 
 		} catch (SQLException ex) {
 			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return rs;
 	}
@@ -147,6 +165,7 @@ class JDBC {
 				String query = "CREATE VIEW " + name + " AS " +  " SELECT DISTINCT " + select + " FROM " + from;
 				System.out.println(query);
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
@@ -156,6 +175,7 @@ class JDBC {
 				String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from;
 				System.out.println(query);
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
@@ -164,16 +184,19 @@ class JDBC {
 			{
 				String query = "CREATE VIEW " + name + " AS " +  " SELECT DISTINCT " + select + " FROM " + from + " WHERE " + where;
 				Statement stmt = con.createStatement();
+				System.out.println(query);
 				rs = stmt.executeQuery(query);
 				return rs;
 			}
 			
 			String query = "CREATE VIEW " + name + " AS " +  " SELECT " + select + " FROM " + from + " WHERE " + where;
 			Statement stmt = con.createStatement();
+			System.out.println(query);
 			rs = stmt.executeQuery(query);
 
 		} catch (SQLException ex) {
 			System.out.println(ex);
+			JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return rs;
 	}
