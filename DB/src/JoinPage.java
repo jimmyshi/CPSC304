@@ -99,7 +99,7 @@ public class JoinPage extends JFrame {
 				
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 772, 588);
+		setBounds(100, 100, 802, 613);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
