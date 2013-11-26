@@ -132,43 +132,43 @@ public class SelectPage extends JFrame {
 				}
 				switch (sval) {
 				case 0:
-					coding_region();
+					contained_coding_region();
 					break;
 				case 1:
-					protein();
-					break;
-				case 2:
-					produces();
-					break;
-				case 3:
-					small_ribosomal_subunit();
-					break;
-				case 4:
-					large_ribosomal_subunit();
-					break;
-				case 5:
 					contains();
 					break;
-				case 6:
+				case 2:
+//					genus();
+					break;
+				case 3:
 					dna();
 					break;
-				case 7:
-					regulatory_proteins();
-					break;
-				case 8:
+				case 4:
 					interacting_stimuli();
 					break;
-				case 9:
+				case 5:
+					protein();
+					break;
+				case 6:
+					produces();
+					break;
+				case 7:
+					mrna();
+					break;
+				case 8:
 					rna_polymerase();
 					break;
+				case 9:
+					rrna();
+					break;
 				case 10:
-					mrna();
+//					transcribe();
 					break;
 				case 11:
 					trna();
 					break;
 				case 12:
-					rrna();
+					regulatory_proteins();
 					break;
 				case 13:
 					noaddtable();
@@ -227,7 +227,7 @@ public class SelectPage extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBounds(414, 302, -397, -53);
 		contentPane.add(panel);
-		coding_region();
+		contained_coding_region();
 
 		// panel2.removeAll();
 		// textField1 = new JTextField();
@@ -309,7 +309,7 @@ public class SelectPage extends JFrame {
 
 	}
 
-	protected void coding_region() {
+	protected void contained_coding_region() {
 		setBounds(100, 100, 450, 460);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
@@ -520,16 +520,16 @@ public class SelectPage extends JFrame {
 		panel2.add(textField2);
 		textField2.setColumns(10);
 
-		JLabel newLabel1 = new JLabel("SIXTEENS SEQUENCE:");
+		JLabel newLabel1 = new JLabel("AA SEQUENCE:");
 		newLabel1.setBounds(10, 50, 200, 20);
 		panel2.add(newLabel1);
 
-		JLabel newLabel2 = new JLabel("PROTEIN RRNA STRUCTURE:");
+		JLabel newLabel2 = new JLabel("P SEQUENCE LENGTH:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
 
 		JButton btnNewButton = new JButton(
-				"Enter Following Values to Add to mRNA");
+				"Enter Following Values to Add to Protein");
 		btnNewButton.setBounds(10, 10, 375, 30);
 		panel2.add(btnNewButton);
 
@@ -543,11 +543,11 @@ public class SelectPage extends JFrame {
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
 
-		label1 = new JLabel("AA SEQUENCE:");
+		label1 = new JLabel("FUNCTION:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
 
-		label2 = new JLabel("R NUCLEOTIDE SEQUENCE:");
+		label2 = new JLabel("D NUCLEOTIDE SEQUENCE:");
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
 
