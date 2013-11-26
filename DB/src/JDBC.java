@@ -51,6 +51,21 @@ class JDBC {
 		}
 		return rs;
 	}
+    
+    public ResultSet GetColumnValues(String table, String column) {
+		ResultSet rs = null;
+		try {
+			String query = "SELECT " + column + " From " + table;
+			Statement stmt = con.createStatement();
+            System.out.println(query);
+			rs = stmt.executeQuery(query);
+			return rs;
+		} catch (SQLException ex){
+			System.out.println(ex);
+		}
+		return rs;
+		
+	}
 	
 	public ResultSet SelectData(String table, String where)
 	{
@@ -75,20 +90,29 @@ class JDBC {
 		return rs;
 	}
 	
-	public ResultSet InsertData2(String table, String value1, String value2)
+	public ResultSet InsertData(String table, String value)
 	{
 		ResultSet rs = null;
 		
 		try {
-			String query = "INSERT INTO " + table + " VALUES (" + "'" + value1 + "'" + "," + value2 + ")"; 
+			String query = "INSERT INTO " + table + " VALUES (" + value + ")";
 			Statement stmt = con.createStatement();
+			System.out.println(query);
 			rs = stmt.executeQuery(query);
-
+            
 		} catch (SQLException ex) {
 			System.out.println(ex);
-			JOptionPane.showMessageDialog(null,
-					ex, "Error Message",
-					JOptionPane.ERROR_MESSAGE);
+			int errorCode =ex.getErrorCode();
+			String exception = ex.toString();
+			if (errorCode == 1){
+				JOptionPane.showMessageDialog(null,
+                                              "This main value (first column value) already exists in this table, please choose another main value", "Error Message",
+                                              JOptionPane.ERROR_MESSAGE);
+			}else{
+                JOptionPane.showMessageDialog(null,
+                                              ex, "Error Message",
+                                              JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		return rs;
 	}
@@ -250,6 +274,60 @@ class JDBC {
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
+	}
+	
+	public ResultSet DivisionQuery(String D_nucleotide_sequence)
+	{
+		ResultSet rs = null;
+		try{
+			String query = "select m.r_nucleotide_sequence, m.sixteens_sequence, m.r_sequence_length "
+					+ "from mrna m "
+					+ "where not exists "
+						+ "(select r.aa_sequence "
+						+ "from rna_polymerase r "
+						+ "where r.aa_sequence = " + "'" + D_nucleotide_sequence + "'" + " and not exists "
+							+ "(select t.r_nucleotide_sequence "
+							+ "from transcribe t "
+							+ "where t.r_nucleotide_sequence= m.r_nucleotide_sequence and "
+							+ "t.aa_sequence=r.aa_sequence))";					
+					
+			System.out.println(query);
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch(SQLException e1)
+		{
+			System.out.println(e1);
+		}
+		return rs;
+	}
+	
+	public ResultSet AggregatedGroupBy(String count)
+	{
+		ResultSet rs = null;
+		try{
+			String query = "select max(p.p_sequence_length) "
+						+ "from protein p "
+						+ "where exists "
+							+ "(select c.aa_sequence "
+							+ "from contained_coding_region c "
+							+ "where exists "
+								+ "(select d.d_nucleotide_sequence "
+								+ "from dna d "
+								+ "where d.d_nucleotide_sequence = c.d_nucleotide_sequence and "
+								+ "d.d_sequence_length in "
+									+ "(select d_sequence_length "
+									+ "from dna "
+									+ "group by d_sequence_length "
+									+ "having count(*)>" + count + ")))";
+			
+			System.out.println(query);
+			Statement stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch(SQLException e1)
+		{
+			System.out.println(e1);
+		}
+		return rs;
 	}
 
 	

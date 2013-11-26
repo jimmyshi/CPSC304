@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 
 public class HomePage extends JFrame {
@@ -53,7 +54,7 @@ public class HomePage extends JFrame {
 		setTitle("Home");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 336, 300);
+		setBounds(100, 100, 311, 278);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -61,12 +62,12 @@ public class HomePage extends JFrame {
 
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 11, 308, 250);
+		panel.setBounds(0, 11, 308, 246);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnInsert = new JButton("Compare 16s Sequence");
-		btnInsert.setBounds(10, 213, 293, 26);
+		btnInsert.setBounds(10, 214, 293, 26);
 		panel.add(btnInsert);
 		
 		JButton btnDelete = new JButton("Identify DNA Genus");

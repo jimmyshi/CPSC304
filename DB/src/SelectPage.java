@@ -37,6 +37,8 @@ public class SelectPage extends JFrame {
 	private JDBC jdbc = new JDBC();
 	private ResultSet rs;
 	private ResultSet tableRS;
+	private ResultSet viewRS;
+	private ResultSet valueRS;
 	private JTable jtable;
 	String tablename;
 	JScrollPane scrollpane;
@@ -46,6 +48,8 @@ public class SelectPage extends JFrame {
 	private JPanel panel2;
 	private int sval;
 	String[] tableList;
+	String[] valuelist1;
+	String[] pmname = { "pol i", "pol ii", "pol iii" };
 	// String[] tableList = { "DNA", "Coding_region", "Contains",
 	// "Interacting_Stimuli", "Large_Ribosomal_Subunit", "mRNA",
 	// "Produces", "Protein", "Regulatory_Proteins", "RNA", "rRNA",
@@ -61,6 +65,8 @@ public class SelectPage extends JFrame {
 	int panelHeight = 320;
 	String selectedString;
 	private String firstColumnName;
+	private JComboBox comboBox;
+	static SelectPage frame;
 
 	/**
 	 * Launch the application.
@@ -69,7 +75,7 @@ public class SelectPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SelectPage frame = new SelectPage();
+					frame = new SelectPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,15 +88,24 @@ public class SelectPage extends JFrame {
 	 * Create the frame.
 	 */
 	public SelectPage() {
+		rsList = new ArrayList();
 		tableRS = jdbc.GetAllTableNames();
 		try {
 			convertTablenames(tableRS);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+		
+		viewRS = jdbc.GetAllViewNames();
+		try {
+			convertTablenames(viewRS);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		convertToString(rsList);
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 476);
+		setBounds(100, 100, 450, 549);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -101,7 +116,7 @@ public class SelectPage extends JFrame {
 		contentPane.add(lblTable);
 
 		panel2 = new JPanel();
-		panel2.setBounds(20, 247, 400, 193);
+		panel2.setBounds(20, 393, 400, 79);
 		contentPane.add(panel2);
 		panel2.setLayout(null);
 
@@ -109,7 +124,7 @@ public class SelectPage extends JFrame {
 		scrollpane.setBounds(10, 41, 414, 164);
 		contentPane.add(scrollpane);
 
-		final JComboBox comboBox = new JComboBox(tableList);
+		comboBox = new JComboBox(tableList);
 		tablename = (String) comboBox.getSelectedItem();
 		createScrollTable();
 		comboBox.addActionListener(new ActionListener() {
@@ -118,13 +133,13 @@ public class SelectPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				scrollpane.setBounds(10, 41, 414, 164);
 				tablename = (String) comboBox.getSelectedItem();
-				for (int i = 0; i < tableList.length - 1; i++) {
+				for (int i = 0; i < tableList.length; i++) {
 					if (tablename == tableList[i]) {
 						if (i <= 12) {
 							sval = i;
 							break;
 						}
-						if (i <= tableList.length - 1) {
+						if (i <= tableList.length) {
 							sval = 13;
 							break;
 						}
@@ -132,43 +147,43 @@ public class SelectPage extends JFrame {
 				}
 				switch (sval) {
 				case 0:
-					contained_coding_region();
-					break;
-				case 1:
-					contains();
-					break;
-				case 2:
-//					genus();
-					break;
-				case 3:
-					dna();
-					break;
-				case 4:
-					interacting_stimuli();
-					break;
-				case 5:
-					protein();
-					break;
-				case 6:
-					produces();
-					break;
-				case 7:
-					mrna();
-					break;
-				case 8:
-					rna_polymerase();
-					break;
-				case 9:
-					rrna();
-					break;
-				case 10:
-//					transcribe();
-					break;
-				case 11:
 					trna();
 					break;
-				case 12:
+				case 1:
 					regulatory_proteins();
+					break;
+				case 2:
+					contained_coding_region();
+					break;
+				case 3:
+					contains();
+					break;
+				case 4:
+					genus();
+					break;
+				case 5:
+					dna();
+					break;
+				case 6:
+					interacting_stimuli();
+					break;
+				case 7:
+					protein();
+					break;
+				case 8:
+					produces();
+					break;
+				case 9:
+					mrna();
+					break;
+				case 10:
+					rna_polymerase();
+					break;
+				case 11:
+					rrna();
+					break;
+				case 12:
+					transcribe();
 					break;
 				case 13:
 					noaddtable();
@@ -197,16 +212,19 @@ public class SelectPage extends JFrame {
 									null,
 									"You are about to delete "
 											+ selectedString
-											+ " in " + tablename + ", do you want to continue?",
+											+ " in "
+											+ tablename
+											+ ", do you want to continue? This will also delete any other value that is refering to this value",
 									"Confirm Deletion",
 									JOptionPane.YES_NO_OPTION);
-					if (selectedOption==JOptionPane.YES_OPTION){
-					rs = jdbc.DeleteData(tablename, firstColumnName,
-							selectedString);
-					createScrollTable();
+					if (selectedOption == JOptionPane.YES_OPTION) {
+						rs = jdbc.DeleteData(tablename, firstColumnName,
+								selectedString);
+						createScrollTable();
 					}
-					if (selectedOption==JOptionPane.NO_OPTION){
-						System.out.println(selectedString + "did not get deleted");
+					if (selectedOption == JOptionPane.NO_OPTION) {
+						System.out.println(selectedString
+								+ "did not get deleted");
 					}
 
 				}
@@ -223,55 +241,172 @@ public class SelectPage extends JFrame {
 
 		btnDelete.setBounds(89, 205, 257, 30);
 		contentPane.add(btnDelete);
+		trna();
 
-		JPanel panel = new JPanel();
-		panel.setBounds(414, 302, -397, -53);
-		contentPane.add(panel);
-		contained_coding_region();
+	}
 
-		// panel2.removeAll();
-		// textField1 = new JTextField();
-		// textField1.setBounds(10, 75, 375, 30);
-		// panel2.add(textField1);
-		// textField1.setColumns(10);
-		//
+	protected void transcribe() {
+		// 3 LABLEL + 3 BOX
+		panel2.removeAll();
+		setBounds(100, 100, 450, 600);
+		panel2.setBounds(20, 250, 400, 290);
+		textField1 = new JTextField();
+		textField1.setText("01");
+		textField1.setBounds(10, 75, 60, 30);
+		panel2.add(textField1);
+		textField1.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("RNA_POLYMERASE", "AA_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
+
 		// textField2 = new JTextField();
 		// textField2.setBounds(10, 150, 375, 30);
 		// panel2.add(textField2);
 		// textField2.setColumns(10);
-		//
-		// JLabel lblDnucleotidesequence = new JLabel("D NUCLEOTIDE SEQUENCE:");
-		// lblDnucleotidesequence.setBounds(10, 50, 200, 20);
-		// panel2.add(lblDnucleotidesequence);
-		//
-		// JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
-		// lblNewLabel.setBounds(10, 125, 200, 20);
-		// panel2.add(lblNewLabel);
-		//
-		// JButton btnInsert = new JButton("Enter Following Values to Add DNA");
-		// btnInsert.setBounds(10, 10, 375, 30);
-		// btnInsert.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent arg0) {
-		// tablename = "DNA";
-		// String value1 = textField1.getText();
-		// String value2 = textField2.getText();
-		// rs = jdbc.InsertData2(tablename, value1, value2);
-		// System.out.println(value1 + " and " + value2 + " is added to "
-		// + tablename);
-		// createScrollTable();
-		// textField1.setText("");
-		// textField2.setText("");
-		// }
-		// });
-		// panel2.add(btnInsert);
 
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("MRNA", "R_NUCLEOTIDE_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox2 = new JComboBox(valuelist1);
+		newComboBox2.setBounds(10, 225, 375, 30);
+		panel2.add(newComboBox2);
+
+		// textField3 = new JTextField();
+		// textField3.setBounds(10, 225, 375, 30);
+		// panel2.add(textField3);
+		// textField3.setColumns(10);
+
+		JLabel newlabel1 = new JLabel("DAY:");
+		newlabel1.setBounds(117, 52, 41, 20);
+		panel2.add(newlabel1);
+
+		JLabel newlabel2 = new JLabel("AA SEQUENCE");
+		newlabel2.setBounds(10, 125, 200, 20);
+		panel2.add(newlabel2);
+
+		JLabel newlabel3 = new JLabel("R_NUCLEOTIDE_SEQUENCE:");
+		newlabel3.setBounds(10, 200, 200, 20);
+		panel2.add(newlabel3);
+
+		textField2 = new JTextField();
+		textField2.setText("01");
+		textField2.setColumns(10);
+		textField2.setBounds(100, 75, 60, 30);
+		panel2.add(textField2);
+
+		textField3 = new JTextField();
+		textField3.setText("13");
+		textField3.setColumns(10);
+		textField3.setBounds(196, 75, 60, 30);
+		panel2.add(textField3);
+
+		textField4 = new JTextField();
+		textField4.setText("00");
+		textField4.setColumns(10);
+		textField4.setBounds(283, 75, 41, 30);
+		panel2.add(textField4);
+
+		JLabel lblMonth = new JLabel("MONTH:");
+		lblMonth.setBounds(10, 52, 111, 20);
+		panel2.add(lblMonth);
+
+		JLabel lblYear = new JLabel("YEAR:");
+		lblYear.setBounds(198, 54, 111, 20);
+		panel2.add(lblYear);
+
+		JLabel lblHour = new JLabel("HOUR:");
+		lblHour.setBounds(289, 54, 111, 20);
+		panel2.add(lblHour);
+
+		textField5 = new JTextField();
+		textField5.setText("00");
+		textField5.setColumns(10);
+		textField5.setBounds(333, 75, 47, 30);
+		panel2.add(textField5);
+
+		JLabel label = new JLabel(":");
+		label.setBounds(323, 80, 11, 20);
+		panel2.add(label);
+
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add to Transcribe");
+		insertButton.setBounds(10, 10, 375, 30);
+
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textField1.getText().isEmpty()
+						&& !textField2.getText().isEmpty()
+						&& !textField3.getText().isEmpty()
+						&& !textField4.getText().isEmpty()
+						&& !textField5.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = textField2.getText();
+					String value3 = textField3.getText();
+					String value4 = textField4.getText();
+					String value5 = textField5.getText();
+					String value6 = (String) newComboBox1.getSelectedItem();
+					String value7 = (String) newComboBox2.getSelectedItem();
+					if (isInteger(value1)&&isInteger(value2)&&isInteger(value3)&&isInteger(value4)&&isInteger(value5)){
+					String onevalue = "'" + value1+"/"+value2+"/"+value3+"at"+value4+value5 + "'" + "," + "'" + value6
+							+ "'" + "," + "'" + value7 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("01");
+					textField2.setText("01");
+					textField3.setText("13");
+					textField4.setText("00");
+					textField5.setText("00");
+					}
+					else{
+						textField1.setText("01");
+						textField2.setText("01");
+						textField3.setText("13");
+						textField4.setText("00");
+						textField5.setText("00");
+						JOptionPane.showMessageDialog(null,
+								"One of the value entered is not an integer",
+								"Invalid Value", JOptionPane.ERROR_MESSAGE);
+					}
+				} else {
+					textField1.setText("01");
+					textField2.setText("01");
+					textField3.setText("13");
+					textField4.setText("00");
+					textField5.setText("00");
+					JOptionPane.showMessageDialog(null,
+							"Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
+		panel2.updateUI();
 	}
 
-	private void dna() {
-		// TODO Auto-generated method stub
-		setBounds(100, 100, 450, 460);
+	protected void genus() {
+		setBounds(100, 100, 450, 500);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
+
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
@@ -282,22 +417,22 @@ public class SelectPage extends JFrame {
 		panel2.add(textField2);
 		textField2.setColumns(10);
 
-		JLabel lblDnucleotidesequence = new JLabel("D NUCLEOTIDE SEQUENCE:");
-		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
-		panel2.add(lblDnucleotidesequence);
+		JLabel newLabel1 = new JLabel("G_NAME:");
+		newLabel1.setBounds(10, 50, 200, 20);
+		panel2.add(newLabel1);
 
-		JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
-		lblNewLabel.setBounds(10, 125, 200, 20);
-		panel2.add(lblNewLabel);
+		JLabel newLabel2 = new JLabel("CAT:");
+		newLabel2.setBounds(10, 125, 200, 20);
+		panel2.add(newLabel2);
 
 		JButton btnInsert = new JButton("Enter Following Values to Add DNA:");
 		btnInsert.setBounds(10, 10, 375, 30);
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tablename = "DNA";
 				String value1 = textField1.getText();
 				String value2 = textField2.getText();
-				rs = jdbc.InsertData2(tablename, value1, value2);
+				String onevalue = "'" + value1 + "'" + "," + "'" + value2 + "'";
+				rs = jdbc.InsertData(tablename, onevalue);
 				System.out.println(value1 + " and " + value2 + " is added to "
 						+ tablename);
 				createScrollTable();
@@ -309,8 +444,8 @@ public class SelectPage extends JFrame {
 
 	}
 
-	protected void contained_coding_region() {
-		setBounds(100, 100, 450, 460);
+	private void dna() {
+		setBounds(100, 100, 450, 430);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
@@ -318,31 +453,131 @@ public class SelectPage extends JFrame {
 		panel2.add(textField1);
 		textField1.setColumns(10);
 
-		textField2 = new JTextField();
-		textField2.setBounds(10, 150, 375, 30);
-		panel2.add(textField2);
-		textField2.setColumns(10);
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
 
 		JLabel lblDnucleotidesequence = new JLabel("D NUCLEOTIDE SEQUENCE:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
 
-		JLabel lblNewLabel = new JLabel("CORRESPONDING PROTEIN:");
-		lblNewLabel.setBounds(10, 125, 200, 20);
-		panel2.add(lblNewLabel);
+		// JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
+		// lblNewLabel.setBounds(10, 125, 200, 20);
+		// panel2.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton(
-				"Enter Following Values to Add Coding region");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		JButton btnInsert = new JButton("Enter Following Values to Add DNA:");
+		btnInsert.setBounds(10, 10, 375, 30);
+		btnInsert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String value1 = textField1.getText();
+				int value1length = value1.length();
+				String value2 = Integer.toString(value1length);
+				String onevalue = "'" + value1 + "'" + "," + "'" + value2 + "'";
+				rs = jdbc.InsertData(tablename, onevalue);
+				System.out.println(value1 + " and " + value2 + " is added to "
+						+ tablename);
+				createScrollTable();
+				textField1.setText("");
+			}
+		});
+		panel2.add(btnInsert);
+
+	}
+
+	protected void contained_coding_region() {
+		// 3 LABLEL + 3 BOX
+		panel2.removeAll();
+		setBounds(100, 100, 450, 600);
+		panel2.setBounds(20, 250, 400, 290);
+		textField1 = new JTextField();
+		textField1.setBounds(10, 75, 375, 30);
+		panel2.add(textField1);
+		textField1.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("DNA", "D_NUCLEOTIDE_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
+
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("PROTEIN", "AA_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox2 = new JComboBox(valuelist1);
+		newComboBox2.setBounds(10, 225, 375, 30);
+		panel2.add(newComboBox2);
+
+		// textField3 = new JTextField();
+		// textField3.setBounds(10, 225, 375, 30);
+		// panel2.add(textField3);
+		// textField3.setColumns(10);
+
+		JLabel newlabel1 = new JLabel("CR NUCLEOTIDE SEQUENCE:");
+		newlabel1.setBounds(10, 50, 200, 20);
+		panel2.add(newlabel1);
+
+		JLabel newlabel2 = new JLabel("D NUCLEOTIDE SEQUENCE");
+		newlabel2.setBounds(10, 125, 200, 20);
+		panel2.add(newlabel2);
+
+		JLabel newlabel3 = new JLabel("AA SEQUENCE:");
+		newlabel3.setBounds(10, 200, 200, 20);
+		panel2.add(newlabel3);
+
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add Contained Coding region");
+		insertButton.setBounds(10, 10, 375, 30);
+
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					String value3 = (String) newComboBox2.getSelectedItem();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Please enter a CR NUCLEOTIDE SEQUENCE",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
 		panel2.updateUI();
 	}
 
 	protected void contains() {
 		// TODO Auto-generated method stub
-		setBounds(100, 100, 450, 460);
-		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
+		setBounds(100, 100, 450, 600);
+		panel2.setBounds(20, 250, 400, 290);
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
@@ -353,24 +588,58 @@ public class SelectPage extends JFrame {
 		panel2.add(textField2);
 		textField2.setColumns(10);
 
-		JLabel lblDnucleotidesequence = new JLabel("D NUCLEOTIDE SEQUENCE:");
+		textField3 = new JTextField();
+		textField3.setBounds(10, 225, 375, 30);
+		panel2.add(textField3);
+		textField3.setColumns(10);
+
+		JLabel lblDnucleotidesequence = new JLabel("SIXTEENS SEQUENCE:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
 
-		JLabel lblNewLabel = new JLabel("D SEQUENCE LENGTH:");
+		JLabel lblNewLabel = new JLabel("PROTEIN RRNA STRUCTURE:");
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton(
+		JLabel newlabel3 = new JLabel("SPECIE CAT:");
+		newlabel3.setBounds(10, 200, 200, 20);
+		panel2.add(newlabel3);
+
+		JButton insertButton = new JButton(
 				"Enter Following Values to Add Contains:");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()
+						&& !textField2.getText().isEmpty()
+						&& !textField3.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = textField2.getText();
+					String value3 = textField3.getText();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+					textField2.setText("");
+					textField3.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
 		panel2.updateUI();
 
 	}
 
 	protected void interacting_stimuli() {
-		setBounds(100, 100, 450, 460);
+		setBounds(100, 100, 450, 500);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
@@ -378,12 +647,12 @@ public class SelectPage extends JFrame {
 		panel2.add(textField1);
 		textField1.setColumns(10);
 
-		textField2 = new JTextField();
-		textField2.setBounds(10, 150, 375, 30);
-		panel2.add(textField2);
-		textField2.setColumns(10);
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
 
-		JLabel lblDnucleotidesequence = new JLabel("DESCRIPTION OF STIMULI:");
+		JLabel lblDnucleotidesequence = new JLabel("NAME OF STIMULI:");
 		lblDnucleotidesequence.setBounds(10, 50, 200, 20);
 		panel2.add(lblDnucleotidesequence);
 
@@ -391,16 +660,49 @@ public class SelectPage extends JFrame {
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton(
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("REGULATORY_PROTEINS", "AA_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
+
+		JButton insertButton = new JButton(
 				"Enter Following Values to Add Interacting Stimuli");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + " is added to "
+							+ tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
 		panel2.updateUI();
 
 	}
 
 	protected void large_ribosomal_subunit() {
-		setBounds(100, 100, 450, 390);
+		setBounds(100, 100, 450, 430);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
@@ -421,69 +723,90 @@ public class SelectPage extends JFrame {
 	}
 
 	protected void mrna() {
-		setBounds(100, 100, 450, 730);
-		panel2.setBounds(20, 250, 405, 450);
-		panel2.removeAll();
-		textField1 = new JTextField();
-		textField1.setBounds(10, 75, 375, 30);
-		panel2.add(textField1);
-		textField1.setColumns(10);
-
-		textField2 = new JTextField();
-		textField2.setBounds(10, 150, 375, 30);
-		panel2.add(textField2);
-		textField2.setColumns(10);
-
-		JLabel newLabel1 = new JLabel("SIXTEENS SEQUENCE:");
-		newLabel1.setBounds(10, 50, 200, 20);
-		panel2.add(newLabel1);
-
-		JLabel newLabel2 = new JLabel("PROTEIN RRNA STRUCTURE:");
-		newLabel2.setBounds(10, 125, 200, 20);
-		panel2.add(newLabel2);
-
-		JButton btnNewButton = new JButton(
-				"Enter Following Values to Add to mRNA");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
-
-		textField3 = new JTextField();
-		textField3.setColumns(10);
-		textField3.setBounds(10, 225, 375, 30);
-		panel2.add(textField3);
-
-		textField4 = new JTextField();
-		textField4.setColumns(10);
-		textField4.setBounds(10, 300, 375, 30);
-		panel2.add(textField4);
-
-		textField5 = new JTextField();
-		textField5.setColumns(10);
-		textField5.setBounds(10, 375, 375, 30);
-		panel2.add(textField5);
-
-		label1 = new JLabel("AA SEQUENCE:");
-		label1.setBounds(10, 200, 200, 20);
-		panel2.add(label1);
-
-		label2 = new JLabel("R NUCLEOTIDE SEQUENCE:");
-		label2.setBounds(10, 275, 200, 20);
-		panel2.add(label2);
-
-		label3 = new JLabel("R SEQUENCE LENGTH:");
-		label3.setBounds(10, 350, 200, 20);
-		panel2.add(label3);
-
-	}
-
-	protected void produces() {
-		setBounds(100, 100, 450, 460);
+		// 2label+2box
+		setBounds(100, 100, 450, 500);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
 		textField1.setColumns(10);
+
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
+
+		JLabel newLabel1 = new JLabel("R NUCLEOTIDE SEQUENCE:");
+		newLabel1.setBounds(10, 50, 200, 20);
+		panel2.add(newLabel1);
+
+		JLabel newLabel2 = new JLabel("SIXTEENS SEQUENCE:");
+		newLabel2.setBounds(10, 125, 200, 20);
+		panel2.add(newLabel2);
+
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add to mRNA");
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textField1.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					int value1length = value1.length();
+					String value3 = Integer.toString(value1length);
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + " is added to "
+							+ tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
+
+	}
+
+	protected void produces() {
+		setBounds(100, 100, 450, 500);
+		panel2.setBounds(20, 250, 400, 190);
+		panel2.removeAll();
+		// textField1 = new JTextField();
+		// textField1.setBounds(10, 75, 375, 30);
+		// panel2.add(textField1);
+		// textField1.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("PROTEIN", "AA_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 75, 375, 30);
+		panel2.add(newComboBox1);
 
 		textField2 = new JTextField();
 		textField2.setBounds(10, 150, 375, 30);
@@ -498,17 +821,37 @@ public class SelectPage extends JFrame {
 		lblNewLabel.setBounds(10, 125, 200, 20);
 		panel2.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton(
+		JButton insertButton = new JButton(
 				"Enter Following Values to Add to Produces");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textField2.getText().isEmpty()) {
+					String value1 = (String) newComboBox1.getSelectedItem();
+					String value2 = textField2.getText();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + " is added to "
+							+ tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
 		panel2.updateUI();
 
 	}
 
 	protected void protein() {
-		setBounds(100, 100, 450, 620);
-		panel2.setBounds(20, 250, 405, 340);
+		// 2label+2box
+		setBounds(100, 100, 450, 500);
+		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
@@ -524,38 +867,44 @@ public class SelectPage extends JFrame {
 		newLabel1.setBounds(10, 50, 200, 20);
 		panel2.add(newLabel1);
 
-		JLabel newLabel2 = new JLabel("P SEQUENCE LENGTH:");
+		JLabel newLabel2 = new JLabel("FUNCTION:");
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
 
-		JButton btnNewButton = new JButton(
+		JButton insertButton = new JButton(
 				"Enter Following Values to Add to Protein");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()
+						&& !textField2.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					int value1length = value1.length();
+					String value2 = Integer.toString(value1length);
+					String value3 = textField2.getText();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + " is added to "
+							+ tablename);
+					createScrollTable();
+					textField1.setText("");
+					textField2.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
-		textField3 = new JTextField();
-		textField3.setColumns(10);
-		textField3.setBounds(10, 225, 375, 30);
-		panel2.add(textField3);
-
-		textField4 = new JTextField();
-		textField4.setColumns(10);
-		textField4.setBounds(10, 300, 375, 30);
-		panel2.add(textField4);
-
-		label1 = new JLabel("FUNCTION:");
-		label1.setBounds(10, 200, 200, 20);
-		panel2.add(label1);
-
-		label2 = new JLabel("D NUCLEOTIDE SEQUENCE:");
-		label2.setBounds(10, 275, 200, 20);
-		panel2.add(label2);
+		panel2.add(insertButton);
 
 	}
 
 	protected void regulatory_proteins() {
-		setBounds(100, 100, 450, 730);
-		panel2.setBounds(20, 250, 405, 450);
+		setBounds(100, 100, 450, 660);
+		panel2.setBounds(20, 250, 405, 340);
 		panel2.removeAll();
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
@@ -575,27 +924,64 @@ public class SelectPage extends JFrame {
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
 
-		JButton btnNewButton = new JButton(
-				"Enter Following Values to Add to Regulatory Proteins");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("CONTAINED_CODING_REGION",
+				"CR_DN_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 225, 375, 30);
+		panel2.add(newComboBox1);
 
-		textField3 = new JTextField();
-		textField3.setColumns(10);
-		textField3.setBounds(10, 225, 375, 30);
-		panel2.add(textField3);
+		// textField3 = new JTextField();
+		// textField3.setColumns(10);
+		// textField3.setBounds(10, 225, 375, 30);
+		// panel2.add(textField3);
 
 		textField4 = new JTextField();
 		textField4.setColumns(10);
 		textField4.setBounds(10, 300, 375, 30);
 		panel2.add(textField4);
 
-		textField5 = new JTextField();
-		textField5.setColumns(10);
-		textField5.setBounds(10, 375, 375, 30);
-		panel2.add(textField5);
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add to Regulatory Proteins");
+		insertButton.setBounds(10, 10, 375, 30);
 
-		label1 = new JLabel("CORRESPONDING PROTEIN:");
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()
+						&& !textField2.getText().isEmpty()
+						&& !textField4.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = textField2.getText();
+					String value3 = (String) newComboBox1.getSelectedItem();
+					String value4 = textField4.getText();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'" + "," + "'"
+							+ value4 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+					textField2.setText("");
+					textField4.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing a value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
+
+		label1 = new JLabel("CR DN SEQUENCE:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
 
@@ -603,30 +989,125 @@ public class SelectPage extends JFrame {
 		label2.setBounds(10, 275, 200, 20);
 		panel2.add(label2);
 
-		label3 = new JLabel("DESCRIPTION OF STIMULI:");
-		label3.setBounds(10, 350, 200, 20);
-		panel2.add(label3);
-
 	}
 
 	protected void rna_polymerase() {
-		// TODO Auto-generated method stub
+		// 3 LABLEL + 3 BOX
+		panel2.removeAll();
+		setBounds(100, 100, 450, 600);
+		panel2.setBounds(20, 250, 400, 290);
+		textField1 = new JTextField();
+		textField1.setBounds(10, 75, 375, 30);
+		panel2.add(textField1);
+		textField1.setColumns(10);
+
+		final JComboBox newComboBox1 = new JComboBox(pmname);
+		newComboBox1.setBounds(10, 150, 375, 30);
+
+		panel2.add(newComboBox1);
+
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
+
+		// valueRS = null;
+		// valueRS = jdbc.GetColumnValues("PROTEIN","AA_SEQUENCE");
+		// try {
+		// convertTablenames(valueRS);
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// convertValueToString(rsList);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("DNA", "D_NUCLEOTIDE_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox2 = new JComboBox(valuelist1);
+		newComboBox2.setBounds(10, 225, 375, 30);
+		panel2.add(newComboBox2);
+
+		// textField3 = new JTextField();
+		// textField3.setBounds(10, 225, 375, 30);
+		// panel2.add(textField3);
+		// textField3.setColumns(10);
+
+		JLabel newlabel1 = new JLabel("AA SEQUENCE");
+		newlabel1.setBounds(10, 50, 200, 20);
+		panel2.add(newlabel1);
+
+		JLabel newlabel2 = new JLabel("PM NAME");
+		newlabel2.setBounds(10, 125, 200, 20);
+		panel2.add(newlabel2);
+
+		JLabel newlabel3 = new JLabel("D NUCLEOTIDE SEQUENCE:");
+		newlabel3.setBounds(10, 200, 200, 20);
+		panel2.add(newlabel3);
+
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add RNA Polymerase");
+		insertButton.setBounds(10, 10, 375, 30);
+
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!textField1.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					String value3 = (String) newComboBox2.getSelectedItem();
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Please enter a CR NUCLEOTIDE SEQUENCE",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		panel2.add(insertButton);
+		panel2.updateUI();
 
 	}
 
 	protected void rrna() {
-		setBounds(100, 100, 450, 620);
-		panel2.setBounds(20, 250, 405, 340);
+		// 2label+2box
+		setBounds(100, 100, 450, 500);
+		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
 		textField1.setColumns(10);
 
-		textField2 = new JTextField();
-		textField2.setBounds(10, 150, 375, 30);
-		panel2.add(textField2);
-		textField2.setColumns(10);
+		// textField2 = new JTextField();
+		// textField2.setBounds(10, 150, 375, 30);
+		// panel2.add(textField2);
+		// textField2.setColumns(10);
+
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
 
 		JLabel newLabel1 = new JLabel("R NUCLEOTIDE SEQUENCE:");
 		newLabel1.setBounds(10, 50, 200, 20);
@@ -636,33 +1117,36 @@ public class SelectPage extends JFrame {
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
 
-		JButton btnNewButton = new JButton(
+		JButton insertButton = new JButton(
 				"Enter Following Values to Add to rRNA");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
-
-		textField3 = new JTextField();
-		textField3.setColumns(10);
-		textField3.setBounds(10, 225, 375, 30);
-		panel2.add(textField3);
-
-		textField4 = new JTextField();
-		textField4.setColumns(10);
-		textField4.setBounds(10, 300, 375, 30);
-		panel2.add(textField4);
-
-		label1 = new JLabel("PROTEIN RRNA STRUCTURE:");
-		label1.setBounds(10, 200, 200, 20);
-		panel2.add(label1);
-
-		label2 = new JLabel("R SEQUENCE LENGTH:");
-		label2.setBounds(10, 275, 200, 20);
-		panel2.add(label2);
+		insertButton.setBounds(10, 10, 375, 30);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					int value1length = value1.length();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					String value3 = Integer.toString(value1length);
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + " is added to "
+							+ tablename);
+					createScrollTable();
+					textField1.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Missing Value",
+							"No Value", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		panel2.add(insertButton);
 
 	}
 
 	protected void small_ribosomal_subunit() {
-		setBounds(100, 100, 450, 390);
+		setBounds(100, 100, 450, 430);
 		panel2.setBounds(20, 250, 400, 190);
 		panel2.removeAll();
 		textField1 = new JTextField();
@@ -683,18 +1167,26 @@ public class SelectPage extends JFrame {
 	}
 
 	protected void trna() {
-		setBounds(100, 100, 450, 730);
-		panel2.setBounds(20, 250, 405, 450);
 		panel2.removeAll();
+		setBounds(100, 100, 450, 600);
+		panel2.setBounds(20, 250, 400, 290);
 		textField1 = new JTextField();
 		textField1.setBounds(10, 75, 375, 30);
 		panel2.add(textField1);
 		textField1.setColumns(10);
 
-		textField2 = new JTextField();
-		textField2.setBounds(10, 150, 375, 30);
-		panel2.add(textField2);
-		textField2.setColumns(10);
+		valueRS = null;
+		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
+		try {
+			convertTablenames(valueRS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		convertValueToString(rsList);
+		final JComboBox newComboBox1 = new JComboBox(valuelist1);
+		newComboBox1.setBounds(10, 150, 375, 30);
+		panel2.add(newComboBox1);
 
 		JLabel newLabel1 = new JLabel("R NUCLEOTIDE SEQUENCE:");
 		newLabel1.setBounds(10, 50, 200, 20);
@@ -704,42 +1196,70 @@ public class SelectPage extends JFrame {
 		newLabel2.setBounds(10, 125, 200, 20);
 		panel2.add(newLabel2);
 
-		JButton btnNewButton = new JButton(
-				"Enter Following Values to Add to Regulatory Proteins");
-		btnNewButton.setBounds(10, 10, 375, 30);
-		panel2.add(btnNewButton);
+		JButton insertButton = new JButton(
+				"Enter Following Values to Add to TRNA");
+		insertButton.setBounds(10, 10, 375, 30);
+		panel2.add(insertButton);
 
 		textField3 = new JTextField();
 		textField3.setColumns(10);
 		textField3.setBounds(10, 225, 375, 30);
 		panel2.add(textField3);
 
-		textField4 = new JTextField();
-		textField4.setColumns(10);
-		textField4.setBounds(10, 300, 375, 30);
-		panel2.add(textField4);
+		// textField4 = new JTextField();
+		// textField4.setColumns(10);
+		// textField4.setBounds(10, 300, 375, 30);
+		// panel2.add(textField4);
 
-		textField5 = new JTextField();
-		textField5.setColumns(10);
-		textField5.setBounds(10, 375, 375, 30);
-		panel2.add(textField5);
+		// textField5 = new JTextField();
+		// textField5.setColumns(10);
+		// textField5.setBounds(10, 375, 375, 30);
+		// panel2.add(textField5);
 
-		label1 = new JLabel("PROTEIN RRNA STRUCTURE:");
+		label1 = new JLabel("ANTI CONDON:");
 		label1.setBounds(10, 200, 200, 20);
 		panel2.add(label1);
 
-		label2 = new JLabel("ANTI CONDON:");
-		label2.setBounds(10, 275, 200, 20);
-		panel2.add(label2);
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// tablename = "CONTAINED_CODING_REGION";
+				if (!textField1.getText().isEmpty()
+						&& !textField3.getText().isEmpty()) {
+					String value1 = textField1.getText();
+					String value2 = (String) newComboBox1.getSelectedItem();
+					String value3 = textField3.getText();
+					int value1length = value1.length();
+					String value4 = Integer.toString(value1length);
+					String onevalue = "'" + value1 + "'" + "," + "'" + value2
+							+ "'" + "," + "'" + value3 + "'" + "," + "'"
+							+ value4 + "'";
+					rs = jdbc.InsertData(tablename, onevalue);
+					System.out.println(value1 + "," + value2 + "," + value3
+							+ " is added to " + tablename);
+					createScrollTable();
+					textField1.setText("");
+					textField3.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"One of the value is missing", "No Value",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
-		label3 = new JLabel("R SEQUENCE LENGTH:");
-		label3.setBounds(10, 350, 200, 20);
-		panel2.add(label3);
+		// label2 = new JLabel("ANTI CONDON:");
+		// label2.setBounds(10, 275, 200, 20);
+		// panel2.add(label2);
+
+		// label3 = new JLabel("R SEQUENCE LENGTH:");
+		// label3.setBounds(10, 350, 200, 20);
+		// panel2.add(label3);
+		// panel2.updateUI();
 
 	}
 
 	private DefaultTableModel buildTable(ResultSet rs2) throws SQLException {
-		ResultSetMetaData metaData = rs.getMetaData();
+		ResultSetMetaData metaData = rs2.getMetaData();
 
 		// names of columns
 		Vector<String> columnNames = new Vector<String>();
@@ -751,10 +1271,10 @@ public class SelectPage extends JFrame {
 
 		// data of the table
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		while (rs.next()) {
+		while (rs2.next()) {
 			Vector<Object> vector = new Vector<Object>();
 			for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-				vector.add(rs.getObject(columnIndex));
+				vector.add(rs2.getObject(columnIndex));
 			}
 			data.add(vector);
 		}
@@ -797,14 +1317,12 @@ public class SelectPage extends JFrame {
 				});
 	}
 
-	private void convertTablenames(ResultSet RS) throws SQLException {
-		// TODO Auto-generated method stub
-		ResultSetMetaData metaData = RS.getMetaData();
+	private void convertTablenames(ResultSet resultset) throws SQLException {
+		ResultSetMetaData metaData = resultset.getMetaData();
 		int columnCount = metaData.getColumnCount();
-		rsList = new ArrayList();
-		while (tableRS.next()) {
+		while (resultset.next()) {
 			for (int i = 1; i <= columnCount; i++) {
-				String value = tableRS.getString(i);
+				String value = resultset.getString(i);
 				rsList.add(value);
 			}
 
@@ -819,16 +1337,61 @@ public class SelectPage extends JFrame {
 
 	}
 
+	private void convertValueToString(ArrayList rsList2) {
+		// TODO Auto-generated method stub
+		valuelist1 = new String[rsList2.size()];
+		valuelist1 = (String[]) rsList2.toArray(valuelist1);
+	}
+
+	// private void convertColumntoList(ResultSet valueRS2) {
+	// rsList = new ArrayList();
+	// while (valueRS2.next()){
+	// for (int i=1 ; )
+	// }
+	//
+	//
+	// }
+
 	private void noaddtable() {
 		// TODO Auto-generated method stub
 		panel2.removeAll();
 		panel2.setBounds(20, 393, 400, 50);
-		setBounds(100, 100, 450, 460);
+		setBounds(100, 100, 450, 500);
 		scrollpane.setBounds(10, 41, 414, 350);
+		
+		JButton btnDropThisView = new JButton("Delete This Table");
+		btnDropThisView.setBounds(91, 6, 165, 29);
+		btnDropThisView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					jdbc.DropView(tablename);
+					comboBox.removeItem(tablename);
+					comboBox.setSelectedIndex(0);
+					tablename = (String) comboBox.getSelectedItem();
+					createScrollTable();
+					trna();
+			}
+	});
+		
+		panel2.add(btnDropThisView);
+		
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(414, 302, -397, -53);
+		contentPane.add(panel);
 		JLabel noaddlabel = new JLabel(
-				"This table does not allow adding or deleting");
-		noaddlabel.setBounds(55, 6, 340, 40);
-		panel2.add(noaddlabel);
+				"This table does not allow adding or deleting values");
+		noaddlabel.setBounds(57, 432, 340, 40);
+		contentPane.add(noaddlabel);
 
+	}
+	
+	private static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
 	}
 }

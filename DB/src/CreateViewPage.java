@@ -60,7 +60,7 @@ public class CreateViewPage extends JFrame {
 	private JLabel lblChooseAColumn;
 	private JTextField textField;
 	private JLabel lblCommon;
-	private JTextField textField_1;
+	private JTextField textField2;
 
 	/**
 	 * Launch the application.
@@ -93,11 +93,10 @@ public class CreateViewPage extends JFrame {
 		viewRS = jdbc.GetAllViewNames();
 		try {
 			convertTablenames(viewRS);
-		} catch(SQLException e1) {
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		convertToString(rsList);
-				
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 825, 615);
@@ -120,7 +119,7 @@ public class CreateViewPage extends JFrame {
 		comboBox3 = new JComboBox(columnList1);
 		comboBox3.setBounds(10, 432, 367, 27);
 		columnName1 = (String) comboBox3.getSelectedItem();
-		comboBox3.addActionListener(new ActionListener(){
+		comboBox3.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -128,9 +127,9 @@ public class CreateViewPage extends JFrame {
 				columnName1 = (String) comboBox3.getSelectedItem();
 				System.out.println(columnName1);
 			}
-			
+
 		});
-		
+
 		contentPane.add(comboBox3);
 		comboBox.addActionListener(new ActionListener() {
 
@@ -142,10 +141,10 @@ public class CreateViewPage extends JFrame {
 				createScrollTable();
 				comboBox3 = new JComboBox(columnList1);
 				columnName1 = (String) comboBox3.getSelectedItem();
-//				comboBox3.updateUI();
-//				contentPane.updateUI();
+				// comboBox3.updateUI();
+				// contentPane.updateUI();
 				comboBox3.setBounds(10, 432, 367, 27);
-				comboBox3.addActionListener(new ActionListener(){
+				comboBox3.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -153,9 +152,9 @@ public class CreateViewPage extends JFrame {
 						columnName1 = (String) comboBox3.getSelectedItem();
 						System.out.println(columnName1);
 					}
-					
+
 				});
-				
+
 				contentPane.add(comboBox3);
 				contentPane.updateUI();
 			}
@@ -170,16 +169,16 @@ public class CreateViewPage extends JFrame {
 		comboBox4 = new JComboBox(columnList2);
 		comboBox4.setBounds(391, 432, 367, 27);
 		columnName2 = (String) comboBox4.getSelectedItem();
-		comboBox4.addActionListener(new ActionListener(){
+		comboBox4.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				columnName2 = (String) comboBox4.getSelectedItem();
 				System.out.println(columnName2);
-				
+
 			}
-			
+
 		});
 		contentPane.add(comboBox4);
 		comboBox2.addActionListener(new ActionListener() {
@@ -191,20 +190,20 @@ public class CreateViewPage extends JFrame {
 				tablename2 = (String) comboBox2.getSelectedItem();
 				createScrollTable2();
 				comboBox4 = new JComboBox(columnList2);
-//				comboBox4.updateUI();
-//				contentPane.updateUI();
+				// comboBox4.updateUI();
+				// contentPane.updateUI();
 				columnName2 = (String) comboBox4.getSelectedItem();
 				comboBox4.setBounds(391, 432, 367, 27);
-				comboBox4.addActionListener(new ActionListener(){
+				comboBox4.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						columnName2 = (String) comboBox4.getSelectedItem();
 						System.out.println(columnName2);
-						
+
 					}
-					
+
 				});
 				contentPane.add(comboBox4);
 				contentPane.updateUI();
@@ -217,105 +216,68 @@ public class CreateViewPage extends JFrame {
 		JButton mergeButton = new JButton("Create New Table");
 		mergeButton.setBounds(239, 538, 279, 28);
 		contentPane.add(mergeButton);
-		
+
 		lblNewLabel = new JLabel("Choose a column");
 		lblNewLabel.setBounds(81, 404, 162, 16);
 		contentPane.add(lblNewLabel);
-		
+
 		lblChooseAColumn = new JLabel("Choose a column");
 		lblChooseAColumn.setBounds(513, 403, 123, 16);
 		contentPane.add(lblChooseAColumn);
-		
+
 		textField = new JTextField();
 		textField.setBounds(150, 470, 608, 28);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		lblCommon = new JLabel("Common Variable:");
 		lblCommon.setBounds(20, 476, 118, 16);
 		contentPane.add(lblCommon);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(150, 504, 608, 28);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblNewTableName = new JLabel("New Table Name:");
+
+		textField2 = new JTextField();
+		textField2.setBounds(150, 504, 608, 28);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
+
+		JLabel lblNewTableName = new JLabel("New Table Name (Optional):");
 		lblNewTableName.setBounds(30, 504, 123, 16);
 		contentPane.add(lblNewTableName);
-
-
+		
 		mergeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String select = columnName1 + " ," + columnName2;
+				String select = "a." + columnName1 + " ," + " b."
+						+ columnName2;
 				String from = tablename + " a, " + tablename2 + " b";
-				String where = "a." + textField.getText() + "=" + "b." + textField.getText();
-				
-				mergeRS = jdbc.ViewData(false, textField_1.getText() , select, from, where);
-								
-								
-								contentPane.removeAll();
-								scrollpane = new JScrollPane();
-								scrollpane.setBounds(10, 41, 740, 350);
-								contentPane.add(scrollpane);
-								try {
-									if (!mergeRS.isBeforeFirst()) {
-										jtable = new JTable();
-									}
-									jtable = new JTable(buildTable(mergeRS));
-								} catch (SQLException e1) {
-									e1.printStackTrace();
-								}
-								jtable.updateUI();
-								scrollpane.setViewportView(jtable);
-								jtable.setRowSelectionAllowed(true);
-								jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//								break;
-//							}
-//							if (mergeRS != null){
-//								break;
-//							}
-//						}
-//					}
-//					if (mergeRS == null) {
-//						jdbc.ViewData(true, newtablename, " * ",
-//								(String) comboBox.getSelectedItem() + " , "
-//										+ (String) comboBox2.getSelectedItem(),
-//								"");
-//						mergeRS = jdbc.SelectData(newtablename, "");
-//						tablename = newtablename;
-//						contentPane.removeAll();
-//						scrollpane = new JScrollPane();
-//						scrollpane.setBounds(10, 41, 740, 350);
-//						contentPane.add(scrollpane);
-//						createScrollTable();
-//					}
-					JButton Refresh = new JButton("Go back");
-					Refresh.setBounds(246, 440, 279, 28);
-					Refresh.addActionListener(new ActionListener() {
+				String where = "a." + textField.getText() + "=" + "b."
+						+ textField.getText();
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							contentPane.removeAll();
-							CreateViewPage frame = new CreateViewPage();
-							frame.setVisible(true);
+				if (!textField2.getText().equals("")){
+					jdbc.ViewData(false, textField2.getText(), select, from,
+							where);
+					mergeRS = jdbc.SelectData(textField2.getText(), "");
+				} else {
+					mergeRS = jdbc.JoinData(false, select, from, where);
+				}
+				contentPane.add(scrollpane);
+				try {
+					if (!mergeRS.isBeforeFirst()) {
+						jtable = new JTable();
+					}
+					jtable = new JTable(buildTable(mergeRS));
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 
-						}
+				JOptionPane
+						.showMessageDialog(null, new JScrollPane(jtable));
 
-					});
-					contentPane.add(Refresh);
-					contentPane.updateUI();
-					// createNewPage();
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Enter a table name",
-//							"No Tablename", JOptionPane.ERROR_MESSAGE);
-//				}
 			}
 
 		});
 	}
+
 
 	protected void createScrollTableJoin() {
 		// TODO Auto-generated method stub
@@ -394,7 +356,7 @@ public class CreateViewPage extends JFrame {
 		tableColumn1 = tableColumn;
 		columnList1 = new String[tableColumn.size()];
 		columnList1 = tableColumn.toArray(columnList1);
-		
+
 		jtable.updateUI();
 		scrollpane.setViewportView(jtable);
 		jtable.setRowSelectionAllowed(true);
@@ -430,12 +392,11 @@ public class CreateViewPage extends JFrame {
 		tableColumn2 = tableColumn;
 		columnList2 = new String[tableColumn2.size()];
 		columnList2 = tableColumn2.toArray(columnList2);
-		
-//		final JComboBox comboBox4 = new JComboBox(columnList2);
-//		comboBox4.setBounds(395, 400, 367, 27);
-//		contentPane.add(comboBox4);
-		
-		
+
+		// final JComboBox comboBox4 = new JComboBox(columnList2);
+		// comboBox4.setBounds(395, 400, 367, 27);
+		// contentPane.add(comboBox4);
+
 		jtable2.updateUI();
 		scrollpane2.setViewportView(jtable2);
 		jtable2.setRowSelectionAllowed(true);
