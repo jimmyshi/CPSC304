@@ -55,6 +55,7 @@ public class SelectPage extends JFrame {
 	// "Produces", "Protein", "Regulatory_Proteins", "RNA", "rRNA",
 	// "Small_Ribosomal_Subunit", "tRNA", };
 	private ArrayList rsList = new ArrayList();
+	private ArrayList valueArrayList = new ArrayList();
 	// rsList[CODING_REGION,PROTEIN,PRODUCES,SMALL_RIBOSOMALSUBUNIT,LARGE_RIBOSOMAL_SUBUNIT,CONTAINS,DNA,REGULATORY_PROTEINS,INTERACTING_STIMULI,RNA_POLYMERASE,MRNA,TRNA,RRNA]
 	private JTextField textField3;
 	private JTextField textField4;
@@ -91,14 +92,14 @@ public class SelectPage extends JFrame {
 		rsList = new ArrayList();
 		tableRS = jdbc.GetAllTableNames();
 		try {
-			convertTablenames(tableRS);
+			converTableNames(tableRS);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		
 		viewRS = jdbc.GetAllViewNames();
 		try {
-			convertTablenames(viewRS);
+			converTableNames(viewRS);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -259,12 +260,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("RNA_POLYMERASE", "AA_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -277,12 +278,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("MRNA", "R_NUCLEOTIDE_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox2 = new JComboBox(valuelist1);
 		newComboBox2.setBounds(10, 225, 375, 30);
 		panel2.add(newComboBox2);
@@ -498,12 +499,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("DNA", "D_NUCLEOTIDE_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -516,12 +517,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("PROTEIN", "AA_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox2 = new JComboBox(valuelist1);
 		newComboBox2.setBounds(10, 225, 375, 30);
 		panel2.add(newComboBox2);
@@ -663,12 +664,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("REGULATORY_PROTEINS", "AA_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -740,12 +741,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -798,12 +799,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("PROTEIN", "AA_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 75, 375, 30);
 		panel2.add(newComboBox1);
@@ -928,12 +929,12 @@ public class SelectPage extends JFrame {
 		valueRS = jdbc.GetColumnValues("CONTAINED_CODING_REGION",
 				"CR_DN_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 225, 375, 30);
 		panel2.add(newComboBox1);
@@ -1024,12 +1025,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("DNA", "D_NUCLEOTIDE_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox2 = new JComboBox(valuelist1);
 		newComboBox2.setBounds(10, 225, 375, 30);
 		panel2.add(newComboBox2);
@@ -1099,12 +1100,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -1178,12 +1179,12 @@ public class SelectPage extends JFrame {
 		valueRS = null;
 		valueRS = jdbc.GetColumnValues("CONTAINS", "SIXTEENS_SEQUENCE");
 		try {
-			convertTablenames(valueRS);
+			convertValueNames(valueRS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		convertValueToString(rsList);
+		convertValueToString(valueArrayList);
 		final JComboBox newComboBox1 = new JComboBox(valuelist1);
 		newComboBox1.setBounds(10, 150, 375, 30);
 		panel2.add(newComboBox1);
@@ -1317,7 +1318,7 @@ public class SelectPage extends JFrame {
 				});
 	}
 
-	private void convertTablenames(ResultSet resultset) throws SQLException {
+	private void converTableNames(ResultSet resultset) throws SQLException {
 		ResultSetMetaData metaData = resultset.getMetaData();
 		int columnCount = metaData.getColumnCount();
 		while (resultset.next()) {
@@ -1329,6 +1330,21 @@ public class SelectPage extends JFrame {
 		}
 
 	}
+	
+	private void convertValueNames(ResultSet resultset) throws SQLException {
+		ResultSetMetaData metaData = resultset.getMetaData();
+		int columnCount = metaData.getColumnCount();
+		while (resultset.next()) {
+			for (int i = 1; i <= columnCount; i++) {
+				String value = resultset.getString(i);
+				valueArrayList.add(value);
+			}
+
+		}
+
+	}
+	
+	
 
 	private void convertToString(ArrayList rsList2) {
 		// TODO Auto-generated method stub
